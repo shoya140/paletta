@@ -1,0 +1,46 @@
+body{
+    height: 100%;
+    width: 100%;
+}
+
+#col{
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+#input{
+    display: inline-block;
+    width: 200px;
+    margin: 0px 10px 10px 10px;
+    text-align: center;
+}
+
+.content{
+    padding: 20px 0px 20px 0px;
+}
+
+#container{
+    width: 100%;
+    position: relative;
+}
+
+.box{
+    float: left;
+    background-color: #008add;
+    box-shadow: 0px 0px 1px #222;
+    position: relative;
+}
+
+#fillers{
+    display: none;
+}
+
+.fillerBox{
+    background-color: #751e11;
+    box-shadow: 0px 0px 1px #222;
+    float: left;
+    position: relative;
+}
