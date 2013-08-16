@@ -15,10 +15,6 @@ $(function(){
     [600, 1000, 5],
     [1000, 2000, 6],
   ],
-//  filler: {
-//    itemSelector: '.fillerBox',
-//  filler_class: 'custom_filler'
-//  },
   layout: 'fluid',
   gutter: 4
   });
@@ -37,19 +33,6 @@ $(function(){
   for (var i = 0; i < colorCount; i ++){
     $("#color"+i).css("background-color", getBaseColor(i,colorCount));
   }
-
-  $(function(){
-    var input = document.getElementById("input");
-    input.onkeyup = input.onChange = function(){
-      var s = this.value;
-      var col = getTiniyHSV(s);
-      document.getElementById("col").style.background = col;
-      document.getElementById("export").innerHTML = col;
-    };
-
-    input.value = "06f";
-    input.onkeyup.call(input);
-  });
 
 });
 
