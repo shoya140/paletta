@@ -12,9 +12,22 @@ body{
     position: relative;
 }
 
+.hue{
+    display: none;
+}
+
+.value{
+    display: none;
+}
+
+.rgb{
+    color: #ffffff;
+    margin: 14px 0px 0px 14px;
+}
+
 .box{
     float: left;
     background-color: #008add;
-    box-shadow: 0 0 10px rgba(0,0,0,.1)
+    box-shadow: 0 0 10px rgba(0,0,0,.4) inset;
     position: relative;
 }

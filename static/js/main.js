@@ -1,6 +1,6 @@
-//init
 $(function(){
 
+  //init
   $(".container").mason({
     itemSelector: ".box",
   ratio: 1.1,
@@ -19,6 +19,41 @@ $(function(){
   gutter: 4
   });
 
+  palettaOff();
+
+  $("div.box").mouseover(function(){
+    $(".box").css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+    $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
+  });
+
+  $("div.box").mouseout(function(){
+    $(this).css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+  });
+
+  $("div.box").click(function(e) {
+      palettaOn(this.id);
+  });
+
+  $("a#reset").click(function(e){
+    palettaOff();
+  });
+});
+
+function palettaOn(colorID){
+  $(".box").each(function(i){
+    if (colorID != "color"+i){
+      var hue = $("#"+colorID).find(".hue").text();
+      var hsv = getRandomeColor(hue);
+      var rgb = getRGBCSS(hsv);
+      $("#color"+i).css("background-color", getRGBCSS(hsv));
+      $("#color"+i).find(".rgb").text(rgb);
+      $("#color"+i).find(".hue").text(hsv[0]);
+      $("#color"+i).find(".value").text([2]);
+    }
+  });
+}
+
+function palettaOff(){
   var colorIDs = [];
   var colorCount = $(".box").length;
   for (var i = 0; i < colorCount; i ++){
@@ -28,44 +63,38 @@ $(function(){
     return Math.random() - Math.random();
   });
   $(".box").each(function(i){
+    $(this).empty();
     $(this).attr('id', 'color' + colorIDs[i]);
+    $(this).append('<p class="rgb">#000000</p>');
+    $(this).append('<p class="hue">0</p>');
+    $(this).append('<p class="value">0</p>');
   });
   for (var i = 0; i < colorCount; i ++){
-    $("#color"+i).css("background-color", getBaseColor(i,colorCount));
+    var hsv = getBaseColor(i, colorCount);
+    var rgb = getRGBCSS(hsv);
+    $("#color"+i).css("background-color", getRGBCSS(hsv));
+    $("#color"+i).find(".rgb").text(rgb);
+    $("#color"+i).find(".hue").text(hsv[0]);
+    $("#color"+i).find(".value").text(hsv[2]);
   }
+};
 
-});
-
-// color clicked
-$(function() {
-
-  $("div.box").mouseover(function(){
-    $(".box").css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
-    $(this).css("box-shadow", "0 0 10px rgba(0,0,0,.1)");
-  });
-  $("div.box").click(function(e) {
-      alert("hoge");
-    });
-});
+function getRGBCSS(hsv){
+  var rgb = hsv2rgb(hsv[0], hsv[1], hsv[2]);
+  return rgb2css(rgb[0], rgb[1], rgb[2]);
+};
 
 function getBaseColor(i, count){
   var h = i / count * 360;
   var s = 0.8;
   var v = 0.8;
-  var rgb = hsv2rgb(h, s, v);
-  return rgb2css(rgb[0], rgb[1], rgb[2]);
+  return([h, s, v]);
 };
 
-var getTiniyHSV = function(s){
-  if(s.length !== 3){
-    return "#000";
-  }
-  var n = parseInt(s, 16);
-  var h = (n >> 8) / 16 * 360;
-  var s = ((n >> 4) & 0xf) / 15;
-  var v = (n & 0xf) / 15;
-  var rgb = hsv2rgb(h, s, v);
-  return rgb2css(rgb[0], rgb[1], rgb[2]);
+function getRandomeColor(hue){
+  var s = Math.random();
+  var v = Math.random();
+  return([hue, s, v]);
 };
 
 var hsv2rgb = function(h, s, v) {
