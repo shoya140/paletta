@@ -19,24 +19,14 @@
     <input type="text" id="input">
     <p id="export"></p>
     <div class="content">
-        <div id="container">
+        <div class="container">
+            {% for i in range(10) %}
             <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
+            {% end %}
         </div>
-        <div id='fillers'>
-            <div class='fillerBox'></div>
-        </div>
+<!--        <div class='fillers'>-->
+<!--            <div class='fillerBox'></div>-->
+<!--        </div>-->
     </div>
 </body>
 </html>

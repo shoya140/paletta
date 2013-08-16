@@ -1,28 +1,65 @@
-window.onload = function(){
-  var input = document.getElementById("input");
-  input.onkeyup = input.onChange = function(){
-    var s = this.value;
-    var col = getTiniyHSV(s);
-    document.getElementById("col").style.background = col;
-    document.getElementById("export").innerHTML = col;
-  };
+//init
+$(function(){
 
-  input.value = "06f";
-  input.onkeyup.call(input);
+  $(".container").mason({
+    itemSelector: ".box",
+  ratio: 1.1,
+  sizes: [
+    [1,1],
+    [2,1],
+    [1,2],
+  ],
+  columns: [
+    [0, 400, 3],
+    [400, 600, 4],
+    [600, 1000, 5],
+    [1000, 2000, 6],
+  ],
+//  filler: {
+//    itemSelector: '.fillerBox',
+//  filler_class: 'custom_filler'
+//  },
+  layout: 'fluid',
+  gutter: 4
+  });
+
+  var colorIDs = [];
+  var colorCount = $(".box").length;
+  for (var i = 0; i < colorCount; i ++){
+    colorIDs.push(i);
+  }
+  colorIDs.sort(function(){
+    return Math.random() - Math.random();
+  });
+  $(".box").each(function(i){
+    $(this).attr('id', 'color' + colorIDs[i]);
+  });
+  for (var i = 0; i < colorCount; i ++){
+    $("#color"+i).css("background-color", getBaseColor(i,colorCount));
+  }
+
+  $(function(){
+    var input = document.getElementById("input");
+    input.onkeyup = input.onChange = function(){
+      var s = this.value;
+      var col = getTiniyHSV(s);
+      document.getElementById("col").style.background = col;
+      document.getElementById("export").innerHTML = col;
+    };
+
+    input.value = "06f";
+    input.onkeyup.call(input);
+  });
+
+});
+
+function getBaseColor(i, count){
+  var h = i / count * 360;
+  var s = 0.7;
+  var v = 0.8;
+  var rgb = hsv2rgb(h, s, v);
+  return rgb2css(rgb[0], rgb[1], rgb[2]);
 };
-
-//$(function(){
-//  var input = $("#input");
-//  input.onkeyup = input.onChange = $(function(){
-//    var s = this.value;
-//    var col = getTiniyHSV(s);
-//    $("#col").css.background-color= col;
-//    $("export").text = col;
-
-//    input.value = "06f";
-//    input.onkeyup.call(input);
-//  });
-//});
 
 var getTiniyHSV = function(s){
   if(s.length !== 3){
@@ -87,33 +124,3 @@ var dec2hex = function(n, beam) {
     }
     return hex;
 };
-
-
-$(function(){
-  $("#container").mason({
-    itemSelector: ".box",
-    ratio: 1.1,
-    sizes: [
-    [1,1],
-    [2,1],
-    [1,2],
-    ],
-    columns: [
-    [0, 400, 3],
-    [400, 600, 4],
-    [600, 1000, 5],
-    [1000, 2000, 6],
-//    [0,480,1],
-//    [480,780,2],
-//    [780,1080,3],
-//    [1080,1320,4],
-//    [1320,1680,5],
-    ],
-    filler: {
-      itemSelector: '.fillerBox',
-      filler_class: 'custom_filler'
-    },
-    layout: 'fluid',
-    gutter: 4
-  });
-});
