@@ -36,9 +36,21 @@ $(function(){
 
 });
 
+// color clicked
+$(function() {
+
+  $("div.box").mouseover(function(){
+    $(".box").css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+    $(this).css("box-shadow", "0 0 10px rgba(0,0,0,.1)");
+  });
+  $("div.box").click(function(e) {
+      alert("hoge");
+    });
+});
+
 function getBaseColor(i, count){
   var h = i / count * 360;
-  var s = 0.7;
+  var s = 0.8;
   var v = 0.8;
   var rgb = hsv2rgb(h, s, v);
   return rgb2css(rgb[0], rgb[1], rgb[2]);
