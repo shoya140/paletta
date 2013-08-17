@@ -2,16 +2,16 @@ body{
     padding: 0px 0px 0px 0px;
     height: 100%;
     width: 100%;
-    background-color: #e5e2ef;
+    background-color: #f0f2f4;
 }
 
 .logo{
-    margin: 5px;
+    margin: 10px;
     height: 40px;
 }
 
 .content{
-    padding: 40px 0px 40px 0px;
+    padding: 30px 0px 40px 0px;
 }
 
 .container{
@@ -37,6 +37,26 @@ body{
     background-color: #008add;
     box-shadow: 0 0 10px rgba(0,0,0,.4) inset;
     position: relative;
+}
+
+.footer{
+    padding: 20px 20px 30px 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,.4);
+    background-color: #212121;
+    color: #ffffff;
+}
+
+a:hover{
+    text-decoration: none;
+    text-shadow: 0 0 1px #0b421d;
+}
+
+.leftButton{
+    position: absolute;
+    left: 0px;
+    margin: 8px 10px 8px 20px;
+    padding: 10px 12px 10px 12px;
+    box-shadow: 0 0 2px rgba(0,0,0,.3) inset;
 }
 
 /*bootstrap*/
@@ -66,10 +86,26 @@ body{
 
 @media screen and (max-width: 480px) {
     .content{
-        padding: 20px 0px 40px 0px;
+        padding: 20px 0px 20px 0px;
     }
     .logo{
         height: 30px;
     }
+    p{
+        text-align:justify;
+        text-justify:inter-ideograph;
+        font-size:14px;
+    }
+    h3{
+        font-size:26px;
+    }
+    .footer{
+        padding: 20px 10px 20px 10px;
+    }
+    .leftButton{
+        margin: 6px 8px 6px 6px;
+        padding: 8px 10px 8px 10px;
+    }
+
 }
 

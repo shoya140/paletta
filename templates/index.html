@@ -14,6 +14,7 @@
 </head>
 <body>
 <div class="navbar">
+    <button href ="#" class="btn btn-info leftButton" id="resetButton">Reset</button>
     <div class="navbar-inner">
         <a class="brand" href="#"><img class="logo" src="{{ static_url("img/paletta-logo.png") }}"></a>
     </div>
@@ -23,6 +24,13 @@
             {% for i in range(10) %}
             <div class="box"></div>
             {% end %}
+        </div>
+    </div>
+    <div class="footer">
+        <h3>HSV Color palette for every Programers</h3>
+        <p>Palettaは顕色系(色相, 明度, 彩度)を用いることで「調和のとれた色」を簡単に選ぶことができるカラーパレットです. 色を選択すると, 周囲の色が同系統の色に変わります. 画面上部のResetボタンを押すと, 色の選択が解除されます.</p>
+        <div align="center">
+            © <a href = "http://mrk1869.com">Shoya Ishimaru</a> 2013
         </div>
     </div>
 </body>

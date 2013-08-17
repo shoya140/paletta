@@ -34,12 +34,13 @@ $(function(){
       palettaOn(this.id);
   });
 
-  $("a#reset").click(function(e){
+  $("button#resetButton").click(function(e){
     palettaOff();
   });
 });
 
 function palettaOn(colorID){
+  $("button#resetButton").fadeIn(300);
   $(".box").each(function(i){
     if (colorID != "color"+i){
       var hue = $("#"+colorID).find(".hue").text();
@@ -48,12 +49,19 @@ function palettaOn(colorID){
       $("#color"+i).css("background-color", getRGBCSS(hsv));
       $("#color"+i).find(".rgb").text(rgb);
       $("#color"+i).find(".hue").text(hsv[0]);
-      $("#color"+i).find(".value").text([2]);
+      $("#color"+i).find(".value").text(hsv[2]);
+      console.log(hsv[2]);
+      if(hsv[2] > 0.83){
+        $("#color"+i).find(".rgb").css("color", "#131516");
+      }else{
+        $("#color"+i).find(".rgb").css("color", "#ffffff");
+      }
     }
   });
 }
 
 function palettaOff(){
+  $("button#resetButton").hide();
   var colorIDs = [];
   var colorCount = $(".box").length;
   for (var i = 0; i < colorCount; i ++){
