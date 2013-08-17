@@ -49,9 +49,8 @@ function palettaOn(colorID){
       $("#color"+i).css("background-color", getRGBCSS(hsv));
       $("#color"+i).find(".rgb").text(rgb);
       $("#color"+i).find(".hue").text(hsv[0]);
-      $("#color"+i).find(".value").text(hsv[2]);
       console.log(hsv[2]);
-      if(hsv[2] > 0.83){
+      if(hsv[2] > 0.70 && hsv[1] < 0.30){
         $("#color"+i).find(".rgb").css("color", "#131516");
       }else{
         $("#color"+i).find(".rgb").css("color", "#ffffff");
@@ -75,7 +74,6 @@ function palettaOff(){
     $(this).attr('id', 'color' + colorIDs[i]);
     $(this).append('<p class="rgb">#000000</p>');
     $(this).append('<p class="hue">0</p>');
-    $(this).append('<p class="value">0</p>');
   });
   for (var i = 0; i < colorCount; i ++){
     var hsv = getBaseColor(i, colorCount);
@@ -83,7 +81,6 @@ function palettaOff(){
     $("#color"+i).css("background-color", getRGBCSS(hsv));
     $("#color"+i).find(".rgb").text(rgb);
     $("#color"+i).find(".hue").text(hsv[0]);
-    $("#color"+i).find(".value").text(hsv[2]);
   }
 };
 
