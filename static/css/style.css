@@ -1,10 +1,17 @@
 body{
+    padding: 0px 0px 0px 0px;
     height: 100%;
     width: 100%;
+    background-color: #e5e2ef;
+}
+
+.logo{
+    margin: 5px;
+    height: 40px;
 }
 
 .content{
-    padding: 20px 0px 20px 0px;
+    padding: 40px 0px 40px 0px;
 }
 
 .container{
@@ -31,3 +38,38 @@ body{
     box-shadow: 0 0 10px rgba(0,0,0,.4) inset;
     position: relative;
 }
+
+/*bootstrap*/
+
+.navbar {
+    margin-bottom: 0px;
+    border-radius: 0px;
+    box-shadow: 0 0 5px rgba(0,0,0,.4);
+    background-color: #faf9f7;
+    min-height: 40px;
+}
+
+.navbar .nav,
+.navbar .nav > li {
+  float:none;
+  display:inline-block;
+  *display:inline; /* ie7 fix */
+  *zoom:1; /* hasLayout ie7 trigger */
+  vertical-align: top;
+}
+
+.navbar-inner {
+  text-align:center;
+}
+
+/*Small Device Styles*/
+
+@media screen and (max-width: 480px) {
+    .content{
+        padding: 20px 0px 40px 0px;
+    }
+    .logo{
+        height: 30px;
+    }
+}
+
