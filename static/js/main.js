@@ -1,5 +1,8 @@
 $(function(){
 
+  // fast-click
+  FastClick.attach(document.body);
+
   //grid-layout
   $(".container").mason({
     itemSelector: ".box",
