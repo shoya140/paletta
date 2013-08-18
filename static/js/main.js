@@ -1,6 +1,6 @@
 $(function(){
 
-  //init
+  //grid-layout
   $(".container").mason({
     itemSelector: ".box",
   ratio: 1.1,
@@ -19,8 +19,10 @@ $(function(){
   gutter: 4
   });
 
+  // init
   palettaOff();
 
+  // events
   $("div.box").mouseover(function(){
     $(".box").css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
     $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
@@ -37,10 +39,12 @@ $(function(){
   $("button#resetButton").click(function(e){
     palettaOff();
   });
+
 });
 
 function palettaOn(colorID){
   $("button#resetButton").fadeIn(300);
+  $("button#resetButton").css("background-color", $("#"+colorID).css("background-color"));
   $(".box").each(function(i){
     if (colorID != "color"+i){
       var hue = $("#"+colorID).find(".hue").text();
@@ -49,7 +53,6 @@ function palettaOn(colorID){
       $("#color"+i).css("background-color", getRGBCSS(hsv));
       $("#color"+i).find(".rgb").text(rgb);
       $("#color"+i).find(".hue").text(hsv[0]);
-      console.log(hsv[2]);
       if(hsv[2] > 0.70 && hsv[1] < 0.30){
         $("#color"+i).find(".rgb").css("color", "#131516");
       }else{
@@ -84,11 +87,6 @@ function palettaOff(){
   }
 };
 
-function getRGBCSS(hsv){
-  var rgb = hsv2rgb(hsv[0], hsv[1], hsv[2]);
-  return rgb2css(rgb[0], rgb[1], rgb[2]);
-};
-
 function getBaseColor(i, count){
   var h = i / count * 360;
   var s = 0.8;
@@ -100,6 +98,11 @@ function getRandomeColor(hue){
   var s = Math.random();
   var v = Math.random();
   return([hue, s, v]);
+};
+
+function getRGBCSS(hsv){
+  var rgb = hsv2rgb(hsv[0], hsv[1], hsv[2]);
+  return rgb2css(rgb[0], rgb[1], rgb[2]);
 };
 
 var hsv2rgb = function(h, s, v) {

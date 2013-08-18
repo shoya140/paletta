@@ -7,7 +7,7 @@ body{
 
 .logo{
     margin: 10px;
-    height: 40px;
+    height: 30px;
 }
 
 .content{
@@ -58,10 +58,10 @@ a:hover{
 
 .leftButton{
     position: absolute;
-    left: 0px;
-    margin: 8px 10px 8px 20px;
-    padding: 10px 12px 10px 12px;
+    left: 10px;
     box-shadow: 0 0 2px rgba(0,0,0,.3) inset;
+    margin: 6px 8px 6px 6px;
+    padding: 8px 10px 8px 10px;
 }
 
 /*bootstrap*/
@@ -91,14 +91,18 @@ a:hover{
     position: fixed;
 }
 
+.btn{
+    border: 0px;
+}
+
 /*Small Device Styles*/
 
 @media screen and (max-width: 480px) {
     .content{
         padding: 70px 0px 20px 0px;
     }
-    .logo{
-        height: 30px;
+    .leftButton{
+        left:0px;
     }
     p{
         text-align:justify;
@@ -111,10 +115,5 @@ a:hover{
     .footer{
         padding: 20px 10px 20px 10px;
     }
-    .leftButton{
-        margin: 6px 8px 6px 6px;
-        padding: 8px 10px 8px 10px;
-    }
-
 }
 
