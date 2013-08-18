@@ -11,7 +11,7 @@ body{
 }
 
 .content{
-    padding: 30px 0px 40px 0px;
+    padding: 80px 0px 40px 0px;
 }
 
 .container{
@@ -87,11 +87,15 @@ a:hover{
   text-align:center;
 }
 
+.navbar-fixed-top{
+    position: fixed;
+}
+
 /*Small Device Styles*/
 
 @media screen and (max-width: 480px) {
     .content{
-        padding: 20px 0px 20px 0px;
+        padding: 70px 0px 20px 0px;
     }
     .logo{
         height: 30px;
