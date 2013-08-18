@@ -40,10 +40,19 @@ body{
 }
 
 .footer{
-    padding: 20px 20px 30px 20px;
+    padding: 20px 20px 20px 20px;
     box-shadow: 0 0 5px rgba(0,0,0,.4);
     background-color: #212121;
     color: #ffffff;
+}
+
+
+.socialBox{
+    padding: 10px 0px 10px 0px;
+}
+
+.license{
+    padding: 10px 0px 10px 0px;
 }
 
 a:hover{
