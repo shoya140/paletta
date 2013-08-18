@@ -6,11 +6,11 @@ import tornado.web
 
 from tornado.options import define, options
 define("port", default=8010, help="run on the given port", type=int)
-define("debug", default=0, help="1:watch in real time", type=bool)
+define("debug", default=0, help="1:watch in real time (debug mode)", type=bool)
 
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render('index.html')
+        self.render('index.html', colors=10)
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()
