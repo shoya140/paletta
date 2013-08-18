@@ -37,6 +37,7 @@ body{
     background-color: #008add;
     box-shadow: 0 0 10px rgba(0,0,0,.4) inset;
     position: relative;
+    cursor: pointer;
 }
 
 .footer{
