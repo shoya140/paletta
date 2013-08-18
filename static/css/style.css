@@ -2,7 +2,7 @@ body{
     padding: 0px 0px 0px 0px;
     height: 100%;
     width: 100%;
-    background-color: #f0f2f4;
+    background-color: #212121;
 }
 
 .logo{
@@ -11,6 +11,7 @@ body{
 }
 
 .content{
+    background-color: #f0f2f4;
     padding: 80px 0px 40px 0px;
 }
 
@@ -42,7 +43,7 @@ body{
 
 .footer{
     padding: 20px 20px 20px 20px;
-    box-shadow: 0 0 5px rgba(0,0,0,.4);
+    box-shadow: 0 8px 12px -6px rgba(0,0,0,.4) inset;
     background-color: #212121;
     color: #ffffff;
 }
