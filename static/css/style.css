@@ -30,7 +30,6 @@ body{
 
 .rgb{
     color: #ffffff;
-/*    margin: 15px 0px 0px 0px;*/
     text-align: center;
     position: absolute;
     left: 15px;
@@ -107,7 +106,8 @@ a:hover{
         padding: 70px 0px 20px 0px;
     }
     .rgb{
-        margin: 10px 0px 0px 0px;
+        left: 16px;
+        top: 14px;
     }
     .leftButton{
         left:0px;
