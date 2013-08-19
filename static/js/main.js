@@ -31,29 +31,12 @@ $(function(){
     $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
   });
 
-//  $("div.box").mouseout(function(){
-//    $(this).css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
-//  });
-
   $("div.box").click(function(e) {
       palettaOn(this.id);
   });
 
   $("button#resetButton").click(function(e){
     palettaOff();
-  });
-
-  // ZeroClipboard
-  var clip = new ZeroClipboard( $(".box").find(".rgb"), {
-    moviePath: "/static/flash/ZeroClipboard.swf"
-  });
-
-  clip.on( 'mouseover', function(client) {
-    $(this).tooltip('show');
-  });
-
-  clip.on( 'mouseout', function(client) {
-    $(this).tooltip('hide');
   });
 
 });
@@ -103,6 +86,21 @@ function palettaOff(){
     $("#color"+i).find(".rgb").text(rgb);
     $("#color"+i).find(".hue").text(hsv[0]);
   }
+
+  // ZeroClipboard
+  var clip = new ZeroClipboard($(".box").find(".rgb"), {
+    moviePath: "/static/flash/ZeroClipboard.swf"
+  });
+
+  clip.on('mouseover', function(client) {
+    $(this).tooltip('show');
+  });
+
+  clip.on('mouseout', function(client) {
+    $(this).tooltip('hide');
+  });
+
+
 };
 
 function getBaseColor(i, count){
