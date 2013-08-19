@@ -45,11 +45,17 @@ body{
 }
 
 .footer{
-    padding: 20px 20px 20px 20px;
     box-shadow: 0 8px 12px -6px rgba(0,0,0,.4) inset;
     background-color: #212121;
     color: #ffffff;
 }
+
+.footer-inner{
+    max-width: 770px;
+    padding: 20px 20px 20px 20px;
+    margin: 0px auto 0 auto;
+}
+
 
 .license{
     padding: 10px 0px 10px 0px;
@@ -120,7 +126,7 @@ a:hover{
     h3{
         font-size:26px;
     }
-    .footer{
+    .footer-inner{
         padding: 20px 10px 20px 10px;
     }
 }
