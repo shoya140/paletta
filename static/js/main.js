@@ -31,9 +31,9 @@ $(function(){
     $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
   });
 
-  $("div.box").mouseout(function(){
-    $(this).css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
-  });
+//  $("div.box").mouseout(function(){
+//    $(this).css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+//  });
 
   $("div.box").click(function(e) {
       palettaOn(this.id);
@@ -41,6 +41,19 @@ $(function(){
 
   $("button#resetButton").click(function(e){
     palettaOff();
+  });
+
+  // ZeroClipboard
+  var clip = new ZeroClipboard( $(".box").find(".rgb"), {
+    moviePath: "/static/flash/ZeroClipboard.swf"
+  });
+
+  clip.on( 'mouseover', function(client) {
+    $(this).tooltip('show');
+  });
+
+  clip.on( 'mouseout', function(client) {
+    $(this).tooltip('hide');
   });
 
 });
@@ -54,6 +67,7 @@ function palettaOn(colorID){
       var hsv = getRandomeColor(hue);
       var rgb = getRGBCSS(hsv);
       $("#color"+i).css("background-color", getRGBCSS(hsv));
+      $("#color"+i).find(".rgb").attr('data-clipboard-text', rgb);
       $("#color"+i).find(".rgb").text(rgb);
       $("#color"+i).find(".hue").text(hsv[0]);
       if(hsv[2] > 0.70 && hsv[1] < 0.30){
@@ -78,13 +92,14 @@ function palettaOff(){
   $(".box").each(function(i){
     $(this).empty();
     $(this).attr('id', 'color' + colorIDs[i]);
-    $(this).append('<p class="rgb">#000000</p>');
+    $(this).append('<span class="rgb" data-clipboard-text="#000000" data-original-title="Click to Cpopy">#000000</span>');
     $(this).append('<p class="hue">0</p>');
   });
   for (var i = 0; i < colorCount; i ++){
     var hsv = getBaseColor(i, colorCount);
     var rgb = getRGBCSS(hsv);
     $("#color"+i).css("background-color", getRGBCSS(hsv));
+    $("#color"+i).find(".rgb").attr('data-clipboard-text', rgb);
     $("#color"+i).find(".rgb").text(rgb);
     $("#color"+i).find(".hue").text(hsv[0]);
   }

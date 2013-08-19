@@ -30,7 +30,11 @@ body{
 
 .rgb{
     color: #ffffff;
-    margin: 14px 0px 0px 14px;
+/*    margin: 15px 0px 0px 0px;*/
+    text-align: center;
+    position: absolute;
+    left: 15px;
+    top: 15px;
 }
 
 .box{
@@ -101,6 +105,9 @@ a:hover{
 @media screen and (max-width: 480px) {
     .content{
         padding: 70px 0px 20px 0px;
+    }
+    .rgb{
+        margin: 10px 0px 0px 0px;
     }
     .leftButton{
         left:0px;
