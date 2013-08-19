@@ -100,7 +100,6 @@ function palettaOff(){
     $(this).tooltip('hide');
   });
 
-
 };
 
 function getBaseColor(i, count){
