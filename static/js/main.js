@@ -92,6 +92,11 @@ function palettaOff(){
     moviePath: "/static/flash/ZeroClipboard.swf"
   });
 
+  clip.on('complete', function(client, args) {
+    $(".notifyMessage").text("Copied " + args.text + " to your clip board");
+    $(".notifyMessage").stop().fadeIn(400).delay(1000).fadeOut(700);
+  });
+
   clip.on('mouseover', function(client) {
     $(this).tooltip('show');
   });

@@ -74,6 +74,22 @@ a:hover{
     padding: 8px 10px 8px 10px;
 }
 
+.notifyMessage{
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    padding: 12px 12px 12px 12px;
+    line-height: 100%;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(30,30,30, 0.9);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    z-index: 4;
+}
+
 /*bootstrap*/
 
 .navbar {
