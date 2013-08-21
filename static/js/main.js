@@ -75,7 +75,7 @@ function palettaOff(){
   $(".box").each(function(i){
     $(this).empty();
     $(this).attr('id', 'color' + colorIDs[i]);
-    $(this).append('<span class="rgb" data-clipboard-text="#000000" data-original-title="Click to Cpopy">#000000</span>');
+    $(this).append('<span class="rgb" data-clipboard-text="#000000" data-original-title="Click to Copy">#000000</span>');
     $(this).append('<p class="hue">0</p>');
   });
   for (var i = 0; i < colorCount; i ++){
