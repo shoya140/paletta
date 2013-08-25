@@ -6,20 +6,20 @@ $(function(){
   //grid-layout
   $(".container").mason({
     itemSelector: ".box",
-  ratio: 1.1,
-  sizes: [
-    [1,1],
-    [2,1],
-    [1,2],
-  ],
-  columns: [
-    [0, 400, 3],
-    [400, 600, 4],
-    [600, 1000, 5],
-    [1000, 2000, 6],
-  ],
-  layout: 'fluid',
-  gutter: 4
+    ratio: 1.1,
+    sizes: [
+      [1,1],
+      [2,1],
+      [1,2],
+    ],
+    columns: [
+      [0, 400, 3],
+      [400, 600, 4],
+      [600, 1000, 5],
+      [1000, 2000, 6],
+    ],
+    layout: 'fluid',
+    gutter: 4
   });
 
   // init
@@ -27,19 +27,20 @@ $(function(){
 
   // events
   var $box = $(".box");
-  $box.mouseover(function(){
-    $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
+  $box.on({
+    mouseenter: function(){
+      $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
+    },
+    mouseleave: function(){
+      $box.css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+    }
   });
 
-  $box.mouseout(function(){
-    $box.css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
-  });
-
-  $box.click(function(e) {
+  $box.on('click', function(e) {
       palettaOn(this.id);
   });
 
-  $("button#resetButton").click(function(e){
+  $("button#resetButton").on('click', function(e){
     palettaOff();
   });
 });
@@ -100,7 +101,7 @@ function palettaOff(){
   });
 
   clip.on('complete', function(client, args) {
-    var $notify_message = $(".notifyMessage");    
+    var $notify_message = $(".notifyMessage");
     $notify_message.text("Copied " + args.text + " to your clip board");
     $notify_message.stop().fadeIn(400).delay(1000).fadeOut(700);
   });
@@ -137,27 +138,27 @@ function hsv2rgb(h, s, v) {
   while (h < 0)
     h += 360;
   h %= 360;
-  if (s == 0) {
+  if (+s === 0) {
     v *= 255;
     return [ v, v, v ];
   }
-  var hi = h / 60 >> 0;
+  var hi = +(h / 60 >> 0);
   var f = h / 60 - hi;
   var p = v * (1 - s);
   var q = v * (1 - f * s);
   var t = v * (1 - (1 - f) * s);
   var rgb = [ 1, 1, 1 ];
-  if (hi == 0)
+  if (hi === 0)
     rgb = [ v, t, p ];
-  else if (hi == 1)
+  else if (hi === 1)
     rgb = [ q, v, p ];
-  else if (hi == 2)
+  else if (hi === 2)
     rgb = [ p, v, t ];
-  else if (hi == 3)
+  else if (hi === 3)
     rgb = [ p, q, v ];
-  else if (hi == 4)
+  else if (hi === 4)
     rgb = [ t, p, v ];
-  else if (hi == 5)
+  else if (hi === 5)
     rgb = [ v, p, q ];
   rgb[0] = rgb[0] * 255 >> 0;
   rgb[1] = rgb[1] * 255 >> 0;
@@ -166,7 +167,7 @@ function hsv2rgb(h, s, v) {
 };
 
 function rgb2css(r, g, b) {
-  if (typeof r == 'object') {
+  if (typeof r === 'object') {
     g = r[1];
     b = r[2];
     r = r[0];
