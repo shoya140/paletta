@@ -6,20 +6,20 @@ $(function(){
   //grid-layout
   $(".container").mason({
     itemSelector: ".box",
-  ratio: 1.1,
-  sizes: [
-    [1,1],
-    [2,1],
-    [1,2],
-  ],
-  columns: [
-    [0, 400, 3],
-    [400, 600, 4],
-    [600, 1000, 5],
-    [1000, 2000, 6],
-  ],
-  layout: 'fluid',
-  gutter: 4
+    ratio: 1.1,
+    sizes: [
+      [1,1],
+      [2,1],
+      [1,2],
+    ],
+    columns: [
+      [0, 400, 3],
+      [400, 600, 4],
+      [600, 1000, 5],
+      [1000, 2000, 6],
+    ],
+    layout: 'fluid',
+    gutter: 4
   });
 
   // init
