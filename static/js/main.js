@@ -27,19 +27,20 @@ $(function(){
 
   // events
   var $box = $(".box");
-  $box.mouseover(function(){
-    $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
+  $box.on({
+    mouseenter: function(){
+      $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
+    },
+    mouseleave: function(){
+      $box.css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+    }
   });
 
-  $box.mouseout(function(){
-    $box.css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
-  });
-
-  $box.click(function(e) {
+  $box.on('click', function(e) {
       palettaOn(this.id);
   });
 
-  $("button#resetButton").click(function(e){
+  $("button#resetButton").on('click', function(e){
     palettaOff();
   });
 });
