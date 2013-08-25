@@ -138,27 +138,27 @@ function hsv2rgb(h, s, v) {
   while (h < 0)
     h += 360;
   h %= 360;
-  if (s == 0) {
+  if (+s === 0) {
     v *= 255;
     return [ v, v, v ];
   }
-  var hi = h / 60 >> 0;
+  var hi = +(h / 60 >> 0);
   var f = h / 60 - hi;
   var p = v * (1 - s);
   var q = v * (1 - f * s);
   var t = v * (1 - (1 - f) * s);
   var rgb = [ 1, 1, 1 ];
-  if (hi == 0)
+  if (hi === 0)
     rgb = [ v, t, p ];
-  else if (hi == 1)
+  else if (hi === 1)
     rgb = [ q, v, p ];
-  else if (hi == 2)
+  else if (hi === 2)
     rgb = [ p, v, t ];
-  else if (hi == 3)
+  else if (hi === 3)
     rgb = [ p, q, v ];
-  else if (hi == 4)
+  else if (hi === 4)
     rgb = [ t, p, v ];
-  else if (hi == 5)
+  else if (hi === 5)
     rgb = [ v, p, q ];
   rgb[0] = rgb[0] * 255 >> 0;
   rgb[1] = rgb[1] * 255 >> 0;
@@ -167,7 +167,7 @@ function hsv2rgb(h, s, v) {
 };
 
 function rgb2css(r, g, b) {
-  if (typeof r == 'object') {
+  if (typeof r === 'object') {
     g = r[1];
     b = r[2];
     r = r[0];
