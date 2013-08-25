@@ -26,37 +26,43 @@ $(function(){
   palettaOff();
 
   // events
-  $("div.box").mouseover(function(){
-    $(".box").css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+  var $box = $(".box");
+  $box.mouseover(function(){
     $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
   });
 
-  $("div.box").click(function(e) {
+  $box.mouseout(function(){
+    $box.css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+  });
+
+  $box.click(function(e) {
       palettaOn(this.id);
   });
 
   $("button#resetButton").click(function(e){
     palettaOff();
   });
-
 });
 
 function palettaOn(colorID){
-  $("button#resetButton").fadeIn(300);
-  $("button#resetButton").css("background-color", $("#"+colorID).css("background-color"));
+  var $reset_btn = $("button#resetButton");
+  var $color_id  = $("#"+colorID);
+  $reset_btn.fadeIn(300);
+  $reset_btn.css("background-color", $color_id.css("background-color"));
   $(".box").each(function(i){
     if (colorID != "color"+i){
-      var hue = $("#"+colorID).find(".hue").text();
+      var hue = $color_id.find(".hue").text();
       var hsv = getRandomeColor(hue);
       var rgb = getRGBCSS(hsv);
-      $("#color"+i).css("background-color", getRGBCSS(hsv));
-      $("#color"+i).find(".rgb").attr('data-clipboard-text', rgb);
-      $("#color"+i).find(".rgb").text(rgb);
-      $("#color"+i).find(".hue").text(hsv[0]);
+      var $color_dom = $("#color"+i);
+      $color_dom.css("background-color", getRGBCSS(hsv));
+      $color_dom.find(".rgb").attr('data-clipboard-text', rgb);
+      $color_dom.find(".rgb").text(rgb);
+      $color_dom.find(".hue").text(hsv[0]);
       if(hsv[2] > 0.70 && hsv[1] < 0.30){
-        $("#color"+i).find(".rgb").css("color", "#131516");
+        $color_dom.find(".rgb").css("color", "#131516");
       }else{
-        $("#color"+i).find(".rgb").css("color", "#ffffff");
+        $color_dom.find(".rgb").css("color", "#ffffff");
       }
     }
   });
@@ -81,10 +87,11 @@ function palettaOff(){
   for (var i = 0; i < colorCount; i ++){
     var hsv = getBaseColor(i, colorCount);
     var rgb = getRGBCSS(hsv);
-    $("#color"+i).css("background-color", getRGBCSS(hsv));
-    $("#color"+i).find(".rgb").attr('data-clipboard-text', rgb);
-    $("#color"+i).find(".rgb").text(rgb);
-    $("#color"+i).find(".hue").text(hsv[0]);
+    var $color_dom = $("#color"+i);
+    $color_dom.css("background-color", getRGBCSS(hsv));
+    $color_dom.find(".rgb").attr('data-clipboard-text', rgb);
+    $color_dom.find(".rgb").text(rgb);
+    $color_dom.find(".hue").text(hsv[0]);
   }
 
   // ZeroClipboard
@@ -93,8 +100,9 @@ function palettaOff(){
   });
 
   clip.on('complete', function(client, args) {
-    $(".notifyMessage").text("Copied " + args.text + " to your clip board");
-    $(".notifyMessage").stop().fadeIn(400).delay(1000).fadeOut(700);
+    var $notify_message = $(".notifyMessage");    
+    $notify_message.text("Copied " + args.text + " to your clip board");
+    $notify_message.stop().fadeIn(400).delay(1000).fadeOut(700);
   });
 
   clip.on('mouseover', function(client) {
@@ -125,7 +133,7 @@ function getRGBCSS(hsv){
   return rgb2css(rgb[0], rgb[1], rgb[2]);
 };
 
-var hsv2rgb = function(h, s, v) {
+function hsv2rgb(h, s, v) {
   while (h < 0)
     h += 360;
   h %= 360;
@@ -157,7 +165,7 @@ var hsv2rgb = function(h, s, v) {
   return rgb;
 };
 
-var rgb2css = function(r, g, b) {
+function rgb2css(r, g, b) {
   if (typeof r == 'object') {
     g = r[1];
     b = r[2];
@@ -166,13 +174,13 @@ var rgb2css = function(r, g, b) {
   return "#" + dec2hex(r, 2) + dec2hex(g, 2) + dec2hex(b, 2);
 };
 
-var dec2hex = function(n, beam) {
-    var hex = "";
-    for (var i = 0; i < beam; i++) {
-        var m = n & 0xf;
-        hex = '0123456789abcdef'.charAt(m) + hex;
-        n -= m;
-        n >>= 4;
-    }
-    return hex;
+function dec2hex(n, beam) {
+  var hex = "";
+  for (var i = 0; i < beam; i++) {
+    var m = n & 0xf;
+    hex = '0123456789abcdef'.charAt(m) + hex;
+    n -= m;
+    n >>= 4;
+  }
+  return hex;
 };
