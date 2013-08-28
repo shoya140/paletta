@@ -35,14 +35,13 @@ $(function(){
       $box.css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
     }
   });
-
   $box.on('click', function(e) {
       palettaOn(this.id);
   });
-
   $("button#resetButton").on('click', function(e){
     palettaOff();
   });
+
 });
 
 function palettaOn(colorID){
@@ -53,7 +52,7 @@ function palettaOn(colorID){
   $(".box").each(function(i){
     if (colorID != "color"+i){
       var hue = $color_id.find(".hue").text();
-      var hsv = getRandomeColor(hue);
+      var hsv = getRandomColor(hue);
       var rgb = getRGBCSS(hsv);
       var $color_dom = $("#color"+i);
       $color_dom.css("background-color", getRGBCSS(hsv));
@@ -99,18 +98,16 @@ function palettaOff(){
   var clip = new ZeroClipboard($(".box").find(".rgb"), {
     moviePath: "/static/flash/ZeroClipboard.swf"
   });
-
-  clip.on('complete', function(client, args) {
+  clip.on('complete', function(client, args){
     var $notify_message = $(".notifyMessage");
     $notify_message.text("Copied " + args.text + " to your clip board");
     $notify_message.stop().fadeIn(400).delay(1000).fadeOut(700);
   });
-
-  clip.on('mouseover', function(client) {
+  clip.on('mouseover', function(client){
     $(this).tooltip('show');
   });
 
-  clip.on('mouseout', function(client) {
+  clip.on('mouseout', function(client){
     $(this).tooltip('hide');
   });
 
@@ -123,7 +120,7 @@ function getBaseColor(i, count){
   return([h, s, v]);
 };
 
-function getRandomeColor(hue){
+function getRandomColor(hue){
   var s = Math.random();
   var v = Math.random();
   return([hue, s, v]);
@@ -134,7 +131,7 @@ function getRGBCSS(hsv){
   return rgb2css(rgb[0], rgb[1], rgb[2]);
 };
 
-function hsv2rgb(h, s, v) {
+function hsv2rgb(h, s, v){
   while (h < 0)
     h += 360;
   h %= 360;
@@ -166,8 +163,8 @@ function hsv2rgb(h, s, v) {
   return rgb;
 };
 
-function rgb2css(r, g, b) {
-  if (typeof r === 'object') {
+function rgb2css(r, g, b){
+  if (typeof r === 'object'){
     g = r[1];
     b = r[2];
     r = r[0];
@@ -175,9 +172,9 @@ function rgb2css(r, g, b) {
   return "#" + dec2hex(r, 2) + dec2hex(g, 2) + dec2hex(b, 2);
 };
 
-function dec2hex(n, beam) {
+function dec2hex(n, beam){
   var hex = "";
-  for (var i = 0; i < beam; i++) {
+  for (var i = 0; i < beam; i++){
     var m = n & 0xf;
     hex = '0123456789abcdef'.charAt(m) + hex;
     n -= m;
