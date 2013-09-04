@@ -39,13 +39,14 @@ body{
 .box{
     float: left;
     background-color: #008add;
-    box-shadow: 0 0 10px rgba(0,0,0,.4) inset;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4) inset;
+    border-radius: 3px;
     position: relative;
     cursor: pointer;
 }
 
 .footer{
-    box-shadow: 0 8px 12px -6px rgba(0,0,0,.4) inset;
+    box-shadow: 0 8px 12px -6px rgba(0,0,0,0.4) inset;
     background-color: #212121;
     color: #ffffff;
 }

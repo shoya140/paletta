@@ -29,10 +29,10 @@ $(function(){
   var $box = $(".box");
   $box.on({
     mouseenter: function(){
-      $(this).css("box-shadow", "0 0 20px rgba(0,0,0,.4) inset");
+      $(this).css("box-shadow", "0 0 20px rgba(0,0,0,0.4) inset");
     },
     mouseleave: function(){
-      $box.css("box-shadow", "0 0 10px rgba(0,0,0,.4) inset");
+      $box.css("box-shadow", "0 0 10px rgba(0,0,0,0.4) inset");
     }
   });
   $box.on('click', function(e) {
