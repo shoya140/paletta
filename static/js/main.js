@@ -4,23 +4,42 @@ $(function(){
   FastClick.attach(document.body);
 
   //grid-layout
-  $(".container").mason({
+  $(".palette-inner").mason({
     itemSelector: ".box",
     ratio: 1.1,
     sizes: [
-      [1,1],
-      [2,1],
-      [1,2],
+    [1,1],
+    [2,1],
+    [1,2],
     ],
     columns: [
-      [0, 400, 3],
-      [400, 600, 4],
-      [600, 1000, 5],
-      [1000, 2000, 6],
+    [0, 400, 3],
+    [400, 600, 4],
+    [600, 1000, 5],
+    [1000, 2000, 6],
     ],
     layout: 'fluid',
     gutter: 4
   });
+
+  // input
+  var $input = $(".code-input");
+  $input.keypress(function(e){
+    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+      codeOn($input.val());
+    }
+  });
+
+  // tab
+  $("a[data-toggle='tab']").on('shown', function(e){
+    var tabName = e.target.href.split("#").pop();
+    if (tabName == "palette"){
+      palettaOff();
+    }else if(tabName == "code"){
+      codeOn($input.val());
+    }
+  });
+
 
   // init
   palettaOff();
@@ -36,7 +55,7 @@ $(function(){
     }
   });
   $box.on('click', function(e) {
-      palettaOn(this.id);
+    palettaOn(this.id);
   });
   $("button#resetButton").on('click', function(e){
     palettaOff();
@@ -56,7 +75,7 @@ function palettaOn(colorID){
       var rgb = getRGBCSS(hsv);
       var $color_dom = $("#color"+i);
       $color_dom.css("background-color", getRGBCSS(hsv));
-      $color_dom.find(".rgb").attr('data-clipboard-text', rgb);
+      $color_dom.find(".rgb").attr('data-clipboard-text', rgb.split("#").pop());
       $color_dom.find(".rgb").text(rgb);
       $color_dom.find(".hue").text(hsv[0]);
       if(hsv[2] > 0.70 && hsv[1] < 0.30){
@@ -64,6 +83,28 @@ function palettaOn(colorID){
       }else{
         $color_dom.find(".rgb").css("color", "#ffffff");
       }
+    }
+  });
+}
+
+function codeOn(code){
+  if(code.length != 6){
+    return;
+  }
+  $(".code-container").css("background-color", "#"+code);
+  var hue = rgb2hsv(code)[0];
+  $(".box").each(function(i){
+    var hsv = getRandomColor(hue);
+    var rgb = getRGBCSS(hsv);
+    var $color_dom = $("#color"+i);
+    $color_dom.css("background-color", getRGBCSS(hsv));
+    $color_dom.find(".rgb").attr('data-clipboard-text', rgb.split("#").pop());
+    $color_dom.find(".rgb").text(rgb);
+    $color_dom.find(".hue").text(hsv[0]);
+    if(hsv[2] > 0.70 && hsv[1] < 0.30){
+      $color_dom.find(".rgb").css("color", "#131516");
+    }else{
+      $color_dom.find(".rgb").css("color", "#ffffff");
     }
   });
 }
@@ -81,7 +122,7 @@ function palettaOff(){
   $(".box").each(function(i){
     $(this).empty();
     $(this).attr('id', 'color' + colorIDs[i]);
-    $(this).append('<span class="rgb" data-clipboard-text="#000000" data-original-title="Click to Copy">#000000</span>');
+    $(this).append('<span class="rgb" data-clipboard-text="000000" data-original-title="Click to Copy">#000000</span>');
     $(this).append('<p class="hue">0</p>');
   });
   for (var i = 0; i < colorCount; i ++){
@@ -89,7 +130,7 @@ function palettaOff(){
     var rgb = getRGBCSS(hsv);
     var $color_dom = $("#color"+i);
     $color_dom.css("background-color", getRGBCSS(hsv));
-    $color_dom.find(".rgb").attr('data-clipboard-text', rgb);
+    $color_dom.find(".rgb").attr('data-clipboard-text', rgb.split("#").pop());
     $color_dom.find(".rgb").text(rgb);
     $color_dom.find(".hue").text(hsv[0]);
   }
@@ -181,4 +222,45 @@ function dec2hex(n, beam){
     n >>= 4;
   }
   return hex;
+};
+
+function rgb2hsv(s){
+  if(s.length !== 6){
+    return "#00000";
+  }
+
+  var rgb = [0, 0, 0];
+  rgb[0] = parseInt(s.substring(0, 2), 16);
+  rgb[1] = parseInt(s.substring(2, 4), 16);
+  rgb[2] = parseInt(s.substring(4, 6), 16);
+
+  var max = 0;
+  var min = 256;
+  for (var i = 0; i < rgb.length; i++) {
+    if(max < rgb[i]){
+      max = rgb[i];
+    };
+    if(min > rgb[i]){
+      min = rgb[i];
+    }
+  }
+  console.log(max);
+
+  hsv = [0, 0, 0];
+  if(max == min){
+    hsv[0] = 0;
+  }else if(max == rgb[0]){
+    hsv[0] = (60 * (rgb[1] - rgb[2]) / (max - min) + 360) % 360;
+  }else if(max == rgb[1]){
+    hsv[0] = (60 * (rgb[2] - rgb[0]) / (max - min)) + 120;
+  }else if(max == rgb[2]){
+    hsv[0] = (60 * (rgb[0] - rgb[1]) / (max - min)) + 240;
+  }
+  if(max == 0){
+    hsv[1] = 0;
+  }else{
+    hsv[1] = (255 * ((max - min) / max));
+  }
+  hsv[2] = max;
+  return hsv
 };
