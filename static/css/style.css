@@ -120,6 +120,10 @@ a:hover{
     color:#848c88;
 }
 
+.fb_iframe_widget{
+    top: -5px;
+}
+
 /*bootstrap*/
 
 .navbar {
