@@ -1,17 +1,11 @@
 (function() {
-  var base_color, color_size, colors, crossover, dec2hex, gen, getBaseColor, getRGBCSS, getRandomColor, hsv2rgb, isBaseSelected, isColor0Selected, mutate, mutate_prob, palettaOff, rand, rgb2css, rgb2hsv, seed, shuffle;
-
-  base_color = [0, 0, 0];
+  var color_size, colors, crossover, dec2hex, gen, getBaseColor, getRGBCSS, getRandomColor, hsv2rgb, mutate, mutate_prob, palettaOff, rand, rgb2css, rgb2hsv, seed, shuffle;
 
   colors = [];
 
   color_size = 12;
 
   mutate_prob = 0.5;
-
-  isBaseSelected = false;
-
-  isColor0Selected = false;
 
   $(function() {
     var $box;
@@ -35,19 +29,11 @@
       }
     });
     $box.on("click", function(e) {
-      var color;
-      color = [$(this).find(".hue").text(), $(this).find(".chroma").text(), $(this).find(".brightness").text()];
-      if (isBaseSelected === true) {
-        colors.push(color);
-        if (isColor0Selected === true) {
-          return gen();
-        } else {
-          return isColor0Selected = true;
-        }
+      colors.unshift([$(this).find(".hue").text(), $(this).find(".chroma").text(), $(this).find(".brightness").text()]);
+      if (colors.length === 1) {
+        return seed(this.id);
       } else {
-        base_color = color;
-        seed(this.id);
-        return isBaseSelected = true;
+        return gen();
       }
     });
     return $("button#resetButton").on("click", function(e) {
@@ -59,12 +45,12 @@
     var $color_id, $reset_btn;
     $reset_btn = $("button#resetButton");
     $reset_btn.fadeIn(300);
-    $reset_btn.css("background-color", getRGBCSS(base_color));
+    $reset_btn.css("background-color", getRGBCSS(colors[0]));
     $color_id = $("#" + colorID);
     return $(".box").each(function(i) {
       var $color_dom, hsv, hue, rgb;
       if (colorID !== "color" + i) {
-        hue = parseInt(base_color[0]) + rand(40) - 20;
+        hue = parseInt(colors[0][0]) + rand(40) - 20;
         hsv = getRandomColor(hue);
         rgb = getRGBCSS(hsv);
         $color_dom = $("#color" + i);
@@ -113,7 +99,6 @@
   };
 
   gen = function() {
-    isColor0Selected = false;
     while (colors.length < color_size) {
       if (Math.random() < mutate_prob) {
         colors.push(mutate(colors[rand(2)]));
@@ -121,7 +106,6 @@
         colors.push(crossover(colors[0], colors[1]));
       }
     }
-    shuffle(colors);
     $(".box").each(function(i) {
       var $color_dom, hsv, rgb;
       hsv = colors[i];
@@ -139,13 +123,11 @@
         return $color_dom.find(".rgb").css("color", "#ffffff");
       }
     });
-    return colors = [];
+    return colors = colors.slice(0, 1);
   };
 
   palettaOff = function() {
-    var $color_dom, clip, colorCount, colorIDs, hsv, i, isColor1Selected, rgb, _i, _j;
-    isBaseSelected = false;
-    isColor1Selected = false;
+    var $color_dom, clip, colorCount, colorIDs, hsv, i, rgb, _i, _j;
     colors = [];
     $("button#resetButton").hide();
     colorIDs = [];

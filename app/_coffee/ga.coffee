@@ -1,10 +1,6 @@
-base_color = [0, 0, 0]
 colors = []
 color_size = 12
 mutate_prob = 0.5
-
-isBaseSelected = false
-isColor0Selected = false
 
 $ ->
 
@@ -37,21 +33,15 @@ $ ->
     mouseleave: ->
       $box.css "box-shadow", "0 0 10px rgba(0,0,0,0.4) inset"
   $box.on "click", (e) ->
-    color = [
+    colors.unshift [
       $(this).find(".hue").text(),
       $(this).find(".chroma").text(),
       $(this).find(".brightness").text()
     ]
-    if isBaseSelected is true
-      colors.push(color)
-      if isColor0Selected is true
-        gen()
-      else
-        isColor0Selected = true
-    else
-      base_color = color
+    if colors.length == 1
       seed @id
-      isBaseSelected = true
+    else
+      gen()
 
   $("button#resetButton").on "click", (e) ->
     palettaOff()
@@ -59,11 +49,11 @@ $ ->
 seed = (colorID)->
   $reset_btn = $("button#resetButton")
   $reset_btn.fadeIn 300
-  $reset_btn.css "background-color", getRGBCSS(base_color)
+  $reset_btn.css "background-color", getRGBCSS(colors[0])
   $color_id = $("#" + colorID)
   $(".box").each (i) ->
     unless colorID is "color" + i
-      hue = parseInt(base_color[0]) + rand(40) - 20
+      hue = parseInt(colors[0][0]) + rand(40) - 20
       hsv = getRandomColor(hue)
       rgb = getRGBCSS(hsv)
       $color_dom = $("#color" + i)
@@ -101,14 +91,12 @@ crossover = (c0, c1) ->
   return c0.slice(0, position).concat(c1.slice(position, c1.length))
 
 gen = ->
-  isColor0Selected = false
   while colors.length < color_size
     if Math.random() < mutate_prob
       colors.push mutate(colors[rand(2)])
     else
       colors.push crossover(colors[0], colors[1])
 
-  shuffle(colors)
   $(".box").each (i) ->
     hsv = colors[i]
     rgb = getRGBCSS(hsv)
@@ -123,11 +111,9 @@ gen = ->
       $color_dom.find(".rgb").css "color", "#131516"
     else
       $color_dom.find(".rgb").css "color", "#ffffff"
-  colors = []
+  colors = colors.slice(0, 1)
 
 palettaOff = ->
-  isBaseSelected = false
-  isColor1Selected = false
   colors = []
 
   $("button#resetButton").hide()
