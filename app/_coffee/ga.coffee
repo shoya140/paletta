@@ -91,11 +91,14 @@ crossover = (c0, c1) ->
   return c0.slice(0, position).concat(c1.slice(position, c1.length))
 
 gen = ->
+  colors.push([colors[0][0], colors[0][1], colors[1][2]])
+  colors.push([colors[0][0], colors[1][1], colors[1][2]])
+  colors.push([colors[0][0], colors[1][1], colors[0][2]])
+  colors.push([colors[1][0], colors[0][1], colors[0][2]])
+  colors.push([colors[1][0], colors[1][1], colors[0][2]])
+  colors.push([colors[1][0], colors[0][1], colors[1][2]])
   while colors.length < color_size
-    if Math.random() < mutate_prob
       colors.push mutate(colors[rand(2)])
-    else
-      colors.push crossover(colors[0], colors[1])
 
   $(".box").each (i) ->
     hsv = colors[i]

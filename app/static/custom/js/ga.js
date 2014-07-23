@@ -99,12 +99,14 @@
   };
 
   gen = function() {
+    colors.push([colors[0][0], colors[0][1], colors[1][2]]);
+    colors.push([colors[0][0], colors[1][1], colors[1][2]]);
+    colors.push([colors[0][0], colors[1][1], colors[0][2]]);
+    colors.push([colors[1][0], colors[0][1], colors[0][2]]);
+    colors.push([colors[1][0], colors[1][1], colors[0][2]]);
+    colors.push([colors[1][0], colors[0][1], colors[1][2]]);
     while (colors.length < color_size) {
-      if (Math.random() < mutate_prob) {
-        colors.push(mutate(colors[rand(2)]));
-      } else {
-        colors.push(crossover(colors[0], colors[1]));
-      }
+      colors.push(mutate(colors[rand(2)]));
     }
     $(".box").each(function(i) {
       var $color_dom, hsv, rgb;
