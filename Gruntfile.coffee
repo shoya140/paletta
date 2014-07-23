@@ -12,13 +12,23 @@ module.exports = (grunt) ->
 
     sass:
       compile:
-        src: 'app/_scss/*.scss'
-        dest: 'app/static/custom/css/style.css'
+        files: [
+          cwd: 'app/_scss/'
+          src: ['**/*.scss']
+          dest: 'app/static/custom/css/'
+          expand: true
+          ext: '.css'
+        ]
 
     coffee:
       compile:
-        src: 'app/_coffee/*.coffee'
-        dest: 'app/static/custom/js/script.js'
+        files: [
+          cwd: 'app/_coffee'
+          src: ['**/*.coffee']
+          dest: 'app/static/custom/js/'
+          expand: true
+          ext: '.js'
+        ]
 
     watch:
       scss:

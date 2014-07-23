@@ -1,16 +1,70 @@
 (function() {
-  var codeOn, dec2hex, getBaseColor, getRGBCSS, getRandomColor, hsv2rgb, palettaOff, palettaOn, rgb2css, rgb2hsv;
+  var base_color, color_size, colors, crossover, dec2hex, gen, getBaseColor, getRGBCSS, getRandomColor, hsv2rgb, isBaseSelected, isColor0Selected, mutate, mutate_prob, palettaOff, rand, rgb2css, rgb2hsv, seed, shuffle;
 
-  palettaOn = function(colorID) {
+  base_color = [0, 0, 0];
+
+  colors = [];
+
+  color_size = 12;
+
+  mutate_prob = 0.5;
+
+  isBaseSelected = false;
+
+  isColor0Selected = false;
+
+  $(function() {
+    var $box;
+    FastClick.attach(document.body);
+    $(".palette-inner").mason({
+      itemSelector: ".box",
+      ratio: 1.1,
+      sizes: [[1, 1]],
+      columns: [[0, 400, 3], [400, 800, 4], [800, 1000, 6]],
+      layout: "fluid",
+      gutter: 4
+    });
+    palettaOff();
+    $box = $(".box");
+    $box.on({
+      mouseenter: function() {
+        return $(this).css("box-shadow", "0 0 20px rgba(0,0,0,0.4) inset");
+      },
+      mouseleave: function() {
+        return $box.css("box-shadow", "0 0 10px rgba(0,0,0,0.4) inset");
+      }
+    });
+    $box.on("click", function(e) {
+      var color;
+      color = [$(this).find(".hue").text(), $(this).find(".chroma").text(), $(this).find(".brightness").text()];
+      if (isBaseSelected === true) {
+        colors.push(color);
+        if (isColor0Selected === true) {
+          return gen();
+        } else {
+          return isColor0Selected = true;
+        }
+      } else {
+        base_color = color;
+        seed(this.id);
+        return isBaseSelected = true;
+      }
+    });
+    return $("button#resetButton").on("click", function(e) {
+      return palettaOff();
+    });
+  });
+
+  seed = function(colorID) {
     var $color_id, $reset_btn;
     $reset_btn = $("button#resetButton");
-    $color_id = $("#" + colorID);
     $reset_btn.fadeIn(300);
-    $reset_btn.css("background-color", $color_id.css("background-color"));
+    $reset_btn.css("background-color", getRGBCSS(base_color));
+    $color_id = $("#" + colorID);
     return $(".box").each(function(i) {
       var $color_dom, hsv, hue, rgb;
       if (colorID !== "color" + i) {
-        hue = $color_id.find(".hue").text();
+        hue = parseInt(base_color[0]) + rand(40) - 20;
         hsv = getRandomColor(hue);
         rgb = getRGBCSS(hsv);
         $color_dom = $("#color" + i);
@@ -18,6 +72,8 @@
         $color_dom.find(".rgb").attr("data-clipboard-text", rgb.split("#").pop());
         $color_dom.find(".rgb").text(rgb);
         $color_dom.find(".hue").text(hsv[0]);
+        $color_dom.find(".chroma").text(hsv[1]);
+        $color_dom.find(".brightness").text(hsv[2]);
         if (hsv[2] > 0.70 && hsv[1] < 0.30) {
           return $color_dom.find(".rgb").css("color", "#131516");
         } else {
@@ -27,32 +83,70 @@
     });
   };
 
-  codeOn = function(code) {
-    var hue;
-    if (code.length !== 6) {
-      return;
+  mutate = function(c) {
+    var hue, position;
+    position = rand(3);
+    if (position === 0) {
+      hue = parseInt(c[0]) + rand(40) - 20;
+      if (hue > 360) {
+        hue -= 360;
+      } else if (hue < 0) {
+        hue += 360;
+      }
+      return [hue, c[1], c[2]];
+    } else if (position === 1) {
+      return [c[0], Math.random(), c[2]];
+    } else {
+      return [c[0], c[1], Math.random()];
     }
-    $(".code-container").css("background-color", "#" + code);
-    hue = rgb2hsv(code)[0];
-    return $(".box").each(function(i) {
+  };
+
+  crossover = function(c0, c1) {
+    var position, tmp;
+    if (Math.random < 0.5) {
+      tmp = c0;
+      c0 = c1;
+      c1 = tmp;
+    }
+    position = rand(2) + 1;
+    return c0.slice(0, position).concat(c1.slice(position, c1.length));
+  };
+
+  gen = function() {
+    isColor0Selected = false;
+    while (colors.length < color_size) {
+      if (Math.random() < mutate_prob) {
+        colors.push(mutate(colors[rand(2)]));
+      } else {
+        colors.push(crossover(colors[0], colors[1]));
+      }
+    }
+    shuffle(colors);
+    $(".box").each(function(i) {
       var $color_dom, hsv, rgb;
-      hsv = getRandomColor(hue);
+      hsv = colors[i];
       rgb = getRGBCSS(hsv);
       $color_dom = $("#color" + i);
       $color_dom.css("background-color", getRGBCSS(hsv));
       $color_dom.find(".rgb").attr("data-clipboard-text", rgb.split("#").pop());
       $color_dom.find(".rgb").text(rgb);
       $color_dom.find(".hue").text(hsv[0]);
+      $color_dom.find(".chroma").text(hsv[1]);
+      $color_dom.find(".brightness").text(hsv[2]);
       if (hsv[2] > 0.70 && hsv[1] < 0.30) {
         return $color_dom.find(".rgb").css("color", "#131516");
       } else {
         return $color_dom.find(".rgb").css("color", "#ffffff");
       }
     });
+    return colors = [];
   };
 
   palettaOff = function() {
-    var $color_dom, clip, colorCount, colorIDs, hsv, i, rgb, _i, _j;
+    var $color_dom, clip, colorCount, colorIDs, hsv, i, isColor1Selected, rgb, _i, _j;
+    isBaseSelected = false;
+    isColor1Selected = false;
+    colors = [];
     $("button#resetButton").hide();
     colorIDs = [];
     colorCount = $(".box").length;
@@ -66,7 +160,9 @@
       $(this).empty();
       $(this).attr("id", "color" + colorIDs[i]);
       $(this).append("<span class=\"rgb\" data-clipboard-text=\"000000\" data-original-title=\"Click to Copy\">#000000</span>");
-      return $(this).append("<p class=\"hue\">0</p>");
+      $(this).append("<p class=\"hue\">0</p>");
+      $(this).append("<p class=\"chroma\">0</p>");
+      return $(this).append("<p class=\"brightness\">0</p>");
     });
     for (i = _j = 0; 0 <= colorCount ? _j < colorCount : _j > colorCount; i = 0 <= colorCount ? ++_j : --_j) {
       hsv = getBaseColor(i, colorCount);
@@ -76,6 +172,8 @@
       $color_dom.find(".rgb").attr("data-clipboard-text", rgb.split("#").pop());
       $color_dom.find(".rgb").text(rgb);
       $color_dom.find(".hue").text(hsv[0]);
+      $color_dom.find(".chroma").text(hsv[1]);
+      $color_dom.find(".brightness").text(hsv[2]);
     }
     clip = new ZeroClipboard($(".box").find(".rgb"), {
       moviePath: "/static/custom/flash/ZeroClipboard.swf"
@@ -190,7 +288,6 @@
         min = rgb[i];
       }
     }
-    console.log(max);
     hsv = [0, 0, 0];
     if (max === min) {
       hsv[0] = 0;
@@ -210,6 +307,23 @@
     }
     hsv[2] = max;
     return hsv;
+  };
+
+  rand = function(n) {
+    return Math.floor(Math.random() * n);
+  };
+
+  shuffle = function(array) {
+    var i, j, tmp, x, _i, _len;
+    for (_i = 0, _len = array.length; _i < _len; _i++) {
+      x = array[_i];
+      i = rand(array.length - 1);
+      j = rand(array.length - 1);
+      tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+    return array;
   };
 
 }).call(this);

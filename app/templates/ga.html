@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <meta name="keywords" content="Paletta,color,カラーパレット,顕色系,配色">
     <meta name="description" content="Paletta(パレッタ)は顕色系(色相,明度,彩度)をベースに「調和のとれた色」だけを集めたカラーパレットです.">
-    <meta property="og:title" content="{{ title }}">
-    <meta property="og:url" content="{{ url }}">
+    <meta property="og:title" content="Paletta - HSV Color palette for every Programmer">
+    <meta property="og:url" content="http://paletta.mrk1869.com">
     <meta property="og:image" content="{{ static_url("custom/img/icon.png") }}">
-    <title>{{ title }}</title>
+    <title>Paletta - HSV Color palette for every Programmer</title>
     <link href="{{ static_url("bootstrap/css/bootstrap.css") }}" rel="stylesheet">
     <link href="{{ static_url("custom/css/style.css") }}" rel="stylesheet">
     <script src="{{ static_url("jquery/js/jquery.min.js") }}"></script>
@@ -16,7 +16,7 @@
     <script src="{{ static_url("custom/js/mason.min.js") }}"></script>
     <script src="{{ static_url("custom/js/fastclick.js") }}"></script>
     <script src="{{ static_url("custom/js/ZeroClipboard.min.js") }}"></script>
-    <script src="{{ static_url("custom/js/index.js") }}"></script>
+    <script src="{{ static_url("custom/js/ga.js") }}"></script>
     <link rel="shortcut icon" href="{{ static_url("custom/img/favicon.ico") }}">
 </head>
 <body>
@@ -30,37 +30,21 @@
     </div>
 </div>
 <div class="content">
-    <div class="container">
-        <ul class="nav nav-tabs" id="mode-tab">
-            <li class="active" style="width:50%;"><a href="#palette" data-toggle="tab">Color Palette</a></li>
-            <li style="width:50%;"><a href="#code" data-toggle="tab">Color Code</a></li>
-        </ul>
-    </div>
     <div class="container palette">
-        <div class="tab-content">
-            <div class="tab-pane" id="palette">
-            </div>
-            <div class="tab-pane" id="code">
-                <div class="code-container">
-                    <span style="color:#ffffff;"># </span><input type="text" class="code-input" maxlength="6" value="cc285f">
-                </div>
-            </div>
-        </div>
         <div class="palette-inner">
             {% for i in range(colors) %}
             <div class="box"></div>
             {% end %}
-        </div>
-    </div>
+        </div> </div>
 </div>
 <div class="footer">
     <div class="footer-inner">
         <h3>HSV Color palette for every Programmer</h3>
             <p>Palettaは顕色系(色相, 明度, 彩度)をベースに「調和のとれた色」だけを集めたカラーパレットです. 色を選択すると, 周囲の色が同系統の色に変わります. 画面上部のResetボタンを押すと, 色の選択が解除されます. PCから閲覧している場合は, カラーコードをクリックするだけでコードをクリップボードへ簡単にコピーできます.<a href="http://mrk1869.com/blog/Paletta/">　詳しく</a></p>
             <div class="socialBox">
-                <a href="http://b.hatena.ne.jp/entry/{{ url }}" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" data-hatena-bookmark-lang="ja" title="このページをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このページをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a>
-                <div class="fb-like" data-href="{{ url }}" data-send="false" data-layout="button_count" data-width="120" data-show-faces="false" data-font="arial"></div>
-                <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ url }}" data-text="{{ title }}">Tweet</a>
+                <a href="http://b.hatena.ne.jp/entry/http://paletta.mrk1869.com" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" data-hatena-bookmark-lang="ja" title="このページをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このページをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a>
+                <div class="fb-like" data-href="http://paletta.mrk1869.com" data-send="false" data-layout="button_count" data-width="120" data-show-faces="false" data-font="arial"></div>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://paletta.mrk1869.com" data-text="Paletta - HSV Color palette for every Programmer">Tweet</a>
             </div>
             <div class="license" align="center">
                 © <a href = "http://mrk1869.com">Shoya Ishimaru</a> 2013
