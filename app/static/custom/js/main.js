@@ -137,7 +137,7 @@ function palettaOff(){
 
   // ZeroClipboard
   var clip = new ZeroClipboard($(".box").find(".rgb"), {
-    moviePath: "/static/flash/ZeroClipboard.swf"
+    moviePath: "/static/custom/flash/ZeroClipboard.swf"
   });
   clip.on('complete', function(client, args){
     var $notify_message = $(".notifyMessage");

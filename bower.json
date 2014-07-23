@@ -1,0 +1,43 @@
+{
+  "name": "updraft",
+  "version": "0.0.0",
+  "authors": [
+    "Shoya Ishimaru"
+    ],
+  "description": "Web application template",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+  "node_modules",
+  "bower_components",
+  "test",
+  "tests"
+    ],
+  "devDependencies": {
+    "bootstrap": "~3.1.1",
+    "backbone": "~1.1.2",
+    "underscore": "~1.6.0",
+    "jquery": "~2.1.1"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "js": "dist/js/bootstrap.min.js",
+      "css": "dist/css/bootstrap.min.css",
+      "fonts": [
+        "dist/fonts/glyphicons-halflings-regular.eot",
+        "dist/fonts/glyphicons-halflings-regular.ttf",
+        "dist/fonts/glyphicons-halflings-regular.svg",
+        "dist/fonts/glyphicons-halflings-regular.woff"
+      ]
+    },
+    "backbone": {
+      "js": "backbone.js"
+    },
+    "underscore": {
+      "js": "underscore.js"
+    },
+    "jquery": {
+      "js": "dist/jquery.min.js"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "updraft",
+  "version": "0.0.0",
+  "description": "Web application template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shoya Ishimaru",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-bower-task": "^0.3.4",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-contrib-sass": "^0.7.3",
+    "grunt-contrib-connect": "^0.7.1"
+  }
+}
