@@ -1,11 +1,56 @@
 (function() {
-  var color_size, colors, crossover, dec2hex, gen, getBaseColor, getRGBCSS, getRandomColor, hsv2rgb, mutate, mutate_prob, palettaOff, rand, rgb2css, rgb2hsv, seed, shuffle;
+  var color_size, colors, crossover, dec2hex, error_range_hue, error_range_sv, gen, getBaseColor, getRGBCSS, getRandomColor, hsv2rgb, mutate, mutate_prob, mutate_range_hue, palettaOff, palettaOn, prevent_overflow, rand, rgb2css, rgb2hsv, seed, shuffle;
 
   colors = [];
 
   color_size = 12;
 
-  mutate_prob = 0.5;
+  mutate_prob = 0.05;
+
+  mutate_range_hue = 30;
+
+  error_range_hue = 10;
+
+  error_range_sv = 0.2;
+
+  gen = function(selectedColorID) {
+    var i, j, _i, _j;
+    while (colors.length < color_size) {
+      colors.push(crossover());
+    }
+    for (i = _i = 2; 2 <= color_size ? _i < color_size : _i > color_size; i = 2 <= color_size ? ++_i : --_i) {
+      for (j = _j = 0; _j < 2; j = ++_j) {
+        if (Math.random() < mutate_prob) {
+          colors[i] = mutate(colors[i], j);
+        }
+      }
+    }
+    palettaOn(selectedColorID);
+    return colors = colors.slice(0, 1);
+  };
+
+  crossover = function() {
+    var h, s, v;
+    h = parseInt(colors[rand(2)][0]) + rand(error_range_hue) - error_range_hue / 2;
+    s = parseFloat(colors[rand(2)][1]) + Math.random() * error_range_sv - error_range_sv / 2.0;
+    v = parseFloat(colors[rand(2)][2]) + Math.random() * error_range_sv - error_range_sv / 2.0;
+    return prevent_overflow([h, s, v]);
+  };
+
+  mutate = function(c, position) {
+    var h, s, v;
+    h = c[0];
+    s = c[1];
+    v = c[2];
+    if (position === 0) {
+      h = parseInt(c[0]) + rand(mutate_range_hue) - mutate_range_hue / 2;
+    } else if (position === 1) {
+      s = Math.random();
+    } else if (position === 2) {
+      v = Math.random();
+    }
+    return prevent_overflow([h, s, v]);
+  };
 
   $(function() {
     var $box;
@@ -33,7 +78,7 @@
       if (colors.length === 1) {
         return seed(this.id);
       } else {
-        return gen();
+        return gen(this.id);
       }
     });
     return $("button#resetButton").on("click", function(e) {
@@ -69,63 +114,27 @@
     });
   };
 
-  mutate = function(c) {
-    var hue, position;
-    position = rand(3);
-    if (position === 0) {
-      hue = parseInt(c[0]) + rand(40) - 20;
-      if (hue > 360) {
-        hue -= 360;
-      } else if (hue < 0) {
-        hue += 360;
-      }
-      return [hue, c[1], c[2]];
-    } else if (position === 1) {
-      return [c[0], Math.random(), c[2]];
-    } else {
-      return [c[0], c[1], Math.random()];
-    }
-  };
-
-  crossover = function(c0, c1) {
-    var position, tmp;
-    if (Math.random < 0.5) {
-      tmp = c0;
-      c0 = c1;
-      c1 = tmp;
-    }
-    position = rand(2) + 1;
-    return c0.slice(0, position).concat(c1.slice(position, c1.length));
-  };
-
-  gen = function() {
-    colors.push([colors[0][0], colors[0][1], colors[1][2]]);
-    colors.push([colors[0][0], colors[1][1], colors[1][2]]);
-    colors.push([colors[0][0], colors[1][1], colors[0][2]]);
-    colors.push([colors[1][0], colors[0][1], colors[0][2]]);
-    colors.push([colors[1][0], colors[1][1], colors[0][2]]);
-    colors.push([colors[1][0], colors[0][1], colors[1][2]]);
-    while (colors.length < color_size) {
-      colors.push(mutate(colors[rand(2)]));
-    }
-    $(".box").each(function(i) {
+  palettaOn = function(colorID) {
+    console.log(colorID);
+    return $(".box").each(function(i) {
       var $color_dom, hsv, rgb;
-      hsv = colors[i];
-      rgb = getRGBCSS(hsv);
-      $color_dom = $("#color" + i);
-      $color_dom.css("background-color", getRGBCSS(hsv));
-      $color_dom.find(".rgb").attr("data-clipboard-text", rgb.split("#").pop());
-      $color_dom.find(".rgb").text(rgb);
-      $color_dom.find(".hue").text(hsv[0]);
-      $color_dom.find(".chroma").text(hsv[1]);
-      $color_dom.find(".brightness").text(hsv[2]);
-      if (hsv[2] > 0.70 && hsv[1] < 0.30) {
-        return $color_dom.find(".rgb").css("color", "#131516");
-      } else {
-        return $color_dom.find(".rgb").css("color", "#ffffff");
+      if (colorID !== "color" + i) {
+        hsv = colors[i];
+        rgb = getRGBCSS(hsv);
+        $color_dom = $("#color" + i);
+        $color_dom.css("background-color", getRGBCSS(hsv));
+        $color_dom.find(".rgb").attr("data-clipboard-text", rgb.split("#").pop());
+        $color_dom.find(".rgb").text(rgb);
+        $color_dom.find(".hue").text(hsv[0]);
+        $color_dom.find(".chroma").text(hsv[1]);
+        $color_dom.find(".brightness").text(hsv[2]);
+        if (hsv[2] > 0.70 && hsv[1] < 0.30) {
+          return $color_dom.find(".rgb").css("color", "#131516");
+        } else {
+          return $color_dom.find(".rgb").css("color", "#ffffff");
+        }
       }
     });
-    return colors = colors.slice(0, 1);
   };
 
   palettaOff = function() {
@@ -308,6 +317,29 @@
       array[j] = tmp;
     }
     return array;
+  };
+
+  prevent_overflow = function(c) {
+    var h, s, v;
+    h = c[0];
+    s = c[1];
+    v = c[2];
+    if (h > 360) {
+      h -= 360;
+    } else if (h < 0) {
+      h += 360;
+    }
+    if (s > 1.0) {
+      s = 1.09;
+    } else if (s < 0.0) {
+      s = 0.0;
+    }
+    if (v > 1.0) {
+      v = 0.1;
+    } else if (v < 0.0) {
+      v = 0.0;
+    }
+    return [h, s, v];
   };
 
 }).call(this);

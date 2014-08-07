@@ -1,9 +1,48 @@
 colors = []
 color_size = 12
-mutate_prob = 0.5
+mutate_prob = 0.05
+mutate_range_hue = 30
+error_range_hue = 10
+error_range_sv = 0.2
+
+# MARK - genetic algorithm
+# 遺伝的アルゴリズムここからです
+
+gen = (selectedColorID) ->
+  while colors.length < color_size
+    colors.push(crossover())
+
+  for i in [2...color_size]
+    for j in [0...2]
+      if Math.random() < mutate_prob
+        colors[i] = mutate(colors[i], j)
+
+  palettaOn(selectedColorID)
+  colors = colors.slice(0, 1)
+
+crossover = ->
+  h = parseInt(colors[rand(2)][0]) + rand(error_range_hue) - error_range_hue/2
+  s = parseFloat(colors[rand(2)][1]) + Math.random()*error_range_sv - error_range_sv/2.0
+  v = parseFloat(colors[rand(2)][2]) + Math.random()*error_range_sv - error_range_sv/2.0
+  return prevent_overflow([h, s, v])
+
+mutate = (c, position) ->
+  h = c[0]
+  s = c[1]
+  v = c[2]
+  if position == 0
+    h = parseInt(c[0]) + rand(mutate_range_hue) - mutate_range_hue/2
+  else if position == 1
+    s = Math.random()
+  else if position == 2
+    v = Math.random()
+  return prevent_overflow([h, s, v])
+
+# 遺伝的アルゴリズムここまでです
+
+## MARK - web interface
 
 $ ->
-
   # fast-click
   FastClick.attach document.body
 
@@ -41,7 +80,7 @@ $ ->
     if colors.length == 1
       seed @id
     else
-      gen()
+      gen @id
 
   $("button#resetButton").on "click", (e) ->
     palettaOff()
@@ -68,53 +107,23 @@ seed = (colorID)->
       else
         $color_dom.find(".rgb").css "color", "#ffffff"
 
-mutate = (c) ->
-  position = rand(3)
-  if position == 0
-    hue = parseInt(c[0]) + rand(40) - 20
-    if hue > 360
-      hue -= 360
-    else if hue < 0
-      hue += 360
-    return [hue, c[1], c[2]]
-  else if position == 1
-    return [c[0], Math.random(), c[2]]
-  else
-    return [c[0], c[1], Math.random()]
-
-crossover = (c0, c1) ->
-  if Math.random < 0.5
-    tmp = c0
-    c0 = c1
-    c1 = tmp
-  position = rand(2)+1
-  return c0.slice(0, position).concat(c1.slice(position, c1.length))
-
-gen = ->
-  colors.push([colors[0][0], colors[0][1], colors[1][2]])
-  colors.push([colors[0][0], colors[1][1], colors[1][2]])
-  colors.push([colors[0][0], colors[1][1], colors[0][2]])
-  colors.push([colors[1][0], colors[0][1], colors[0][2]])
-  colors.push([colors[1][0], colors[1][1], colors[0][2]])
-  colors.push([colors[1][0], colors[0][1], colors[1][2]])
-  while colors.length < color_size
-      colors.push mutate(colors[rand(2)])
-
+palettaOn = (colorID) ->
+  console.log colorID
   $(".box").each (i) ->
-    hsv = colors[i]
-    rgb = getRGBCSS(hsv)
-    $color_dom = $("#color" + i)
-    $color_dom.css "background-color", getRGBCSS(hsv)
-    $color_dom.find(".rgb").attr "data-clipboard-text", rgb.split("#").pop()
-    $color_dom.find(".rgb").text rgb
-    $color_dom.find(".hue").text hsv[0]
-    $color_dom.find(".chroma").text hsv[1]
-    $color_dom.find(".brightness").text hsv[2]
-    if hsv[2] > 0.70 and hsv[1] < 0.30
-      $color_dom.find(".rgb").css "color", "#131516"
-    else
-      $color_dom.find(".rgb").css "color", "#ffffff"
-  colors = colors.slice(0, 1)
+    unless colorID is "color" + i
+      hsv = colors[i]
+      rgb = getRGBCSS(hsv)
+      $color_dom = $("#color" + i)
+      $color_dom.css "background-color", getRGBCSS(hsv)
+      $color_dom.find(".rgb").attr "data-clipboard-text", rgb.split("#").pop()
+      $color_dom.find(".rgb").text rgb
+      $color_dom.find(".hue").text hsv[0]
+      $color_dom.find(".chroma").text hsv[1]
+      $color_dom.find(".brightness").text hsv[2]
+      if hsv[2] > 0.70 and hsv[1] < 0.30
+        $color_dom.find(".rgb").css "color", "#131516"
+      else
+        $color_dom.find(".rgb").css "color", "#ffffff"
 
 palettaOff = ->
   colors = []
@@ -158,6 +167,8 @@ palettaOff = ->
     $(this).tooltip "show"
   clip.on "mouseout", (client) ->
     $(this).tooltip "hide"
+
+# MARK - utilities
 
 getBaseColor = (i, count) ->
   h = i / count * 360
@@ -260,3 +271,21 @@ shuffle = (array) ->
     array[i] = array[j]
     array[j] = tmp
   return array
+
+prevent_overflow = (c) ->
+  h = c[0]
+  s = c[1]
+  v = c[2]
+  if h > 360
+    h -= 360
+  else if h < 0
+    h += 360
+  if s > 1.0
+    s = 1.09
+  else if s < 0.0
+    s = 0.0
+  if v > 1.0
+    v = 0.1
+  else if v < 0.0
+    v = 0.0
+  return [h, s, v]
