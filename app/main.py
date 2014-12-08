@@ -11,7 +11,8 @@ define("debug", default=0, help="1:watch in real time (debug mode)", type=bool)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-                (r'/', IndexHandler)
+                (r'/', IndexHandler),
+                (r'/ga/?', GAHandler)
                 ]
         settings = dict(
             debug = options.debug,
@@ -23,6 +24,10 @@ class Application(tornado.web.Application):
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         self.render('index.html', colors=10, url="http://paletta.mrk1869.com", title="Paletta - HSV Color palette for every Programmer")
+
+class GAHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render('ga.html', colors=12)
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()

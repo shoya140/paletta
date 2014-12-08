@@ -18,6 +18,12 @@ body {
 .hue {
   display: none; }
 
+.chroma {
+  display: none; }
+
+.brightness {
+  display: none; }
+
 .value {
   display: none; }
 

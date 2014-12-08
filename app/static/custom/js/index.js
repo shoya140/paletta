@@ -1,6 +1,50 @@
 (function() {
   var codeOn, dec2hex, getBaseColor, getRGBCSS, getRandomColor, hsv2rgb, palettaOff, palettaOn, rgb2css, rgb2hsv;
 
+  $(function() {
+    var $box, $input;
+    FastClick.attach(document.body);
+    $(".palette-inner").mason({
+      itemSelector: ".box",
+      ratio: 1.1,
+      sizes: [[1, 1], [2, 1], [1, 2]],
+      columns: [[0, 400, 3], [400, 600, 4], [600, 1000, 5], [1000, 2000, 6]],
+      layout: "fluid",
+      gutter: 4
+    });
+    $input = $(".code-input");
+    $input.keypress(function(e) {
+      if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+        return codeOn($input.val());
+      }
+    });
+    $("a[data-toggle='tab']").on("shown", function(e) {
+      var tabName;
+      tabName = e.target.href.split("#").pop();
+      if (tabName === "palette") {
+        return palettaOff();
+      } else if (tabName === "code") {
+        return codeOn($input.val());
+      }
+    });
+    palettaOff();
+    $box = $(".box");
+    $box.on({
+      mouseenter: function() {
+        return $(this).css("box-shadow", "0 0 20px rgba(0,0,0,0.4) inset");
+      },
+      mouseleave: function() {
+        return $box.css("box-shadow", "0 0 10px rgba(0,0,0,0.4) inset");
+      }
+    });
+    $box.on("click", function(e) {
+      return palettaOn(this.id);
+    });
+    return $("button#resetButton").on("click", function(e) {
+      return palettaOff();
+    });
+  });
+
   palettaOn = function(colorID) {
     var $color_id, $reset_btn;
     $reset_btn = $("button#resetButton");
