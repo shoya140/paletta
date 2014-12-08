@@ -38,6 +38,11 @@
       }
     });
     $box.on("click", function(e) {
+      var rgb;
+      rgb = $(this).find(".rgb").text();
+      $.post("/log/", {
+        color: rgb
+      });
       return palettaOn(this.id);
     });
     return $("button#resetButton").on("click", function(e) {

@@ -46,6 +46,8 @@ $ ->
     mouseleave: ->
       $box.css "box-shadow", "0 0 10px rgba(0,0,0,0.4) inset"
   $box.on "click", (e) ->
+    rgb = $(this).find(".rgb").text()
+    $.post("/log/", {color: rgb})
     palettaOn @id
   $("button#resetButton").on "click", (e) ->
     palettaOff()
