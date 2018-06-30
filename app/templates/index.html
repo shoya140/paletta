@@ -7,23 +7,23 @@
     <meta name="description" content="Paletta(パレッタ)は顕色系(色相,明度,彩度)をベースに「調和のとれた色」だけを集めたカラーパレットです.">
     <meta property="og:title" content="{{ title }}">
     <meta property="og:url" content="{{ url }}">
-    <meta property="og:image" content="{{ static_url("img/icon.png") }}">
+    <meta property="og:image" content="{{ static_url("custom/img/icon.png") }}">
     <title>{{ title }}</title>
-    <link href="{{ static_url("css/bootstrap.css") }}" rel="stylesheet">
-    <link href="{{ static_url("css/style.css") }}" rel="stylesheet">
-    <script src="{{ static_url("js/jquery.1.10.2.min.js") }}"></script>
-    <script src="{{ static_url("js/bootstrap.min.js") }}"></script>
-    <script src="{{ static_url("js/mason.min.js") }}"></script>
-    <script src="{{ static_url("js/fastclick.js") }}"></script>
-    <script src="{{ static_url("js/ZeroClipboard.min.js") }}"></script>
-    <script src="{{ static_url("js/main.js") }}"></script>
-    <link rel="shortcut icon" href="{{ static_url("img/favicon.ico") }}">
+    <link href="{{ static_url("bootstrap/css/bootstrap.css") }}" rel="stylesheet">
+    <link href="{{ static_url("custom/css/style.css") }}" rel="stylesheet">
+    <script src="{{ static_url("jquery/js/jquery.min.js") }}"></script>
+    <script src="{{ static_url("bootstrap/js/bootstrap.min.js") }}"></script>
+    <script src="{{ static_url("custom/js/mason.min.js") }}"></script>
+    <script src="{{ static_url("custom/js/fastclick.js") }}"></script>
+    <script src="{{ static_url("custom/js/ZeroClipboard.min.js") }}"></script>
+    <script src="{{ static_url("custom/js/index.js") }}"></script>
+    <link rel="shortcut icon" href="{{ static_url("custom/img/favicon.ico") }}">
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
     <button href ="#" class="btn btn-info leftButton" id="resetButton">Reset</button>
     <div class="navbar-inner">
-        <a class="brand" href="/"><img class="logo" src="{{ static_url("img/paletta-logo.png") }}"></a>
+        <a class="brand" href="/"><img class="logo" src="{{ static_url("custom/img/paletta-logo.png") }}"></a>
         <div class="notifyMessage">
             <p>Copied #000000 to your clip board</p>
         </div>
