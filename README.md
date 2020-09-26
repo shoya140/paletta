@@ -1,13 +1,20 @@
 Paletta
 =======
 
-Why don't you select more natural color?  
 Paletta is the color recommend system based on HSV color space (not RGB).
 
 ## Feature
 
-![](http://gifzo.net/m5ZctTi2RL.gif)
+![](https://gyazo.com/dd049cbd3c2c252a7fe9167fb565eadc.gif)
 
-## Local Installation
+## Set up
 
-* require:tornado
+```
+$ yarn install
+
+$ yarn serve
+# Server running at http://localhost:1234
+
+$ yarn build
+# Then host a dist/ directory.
+```

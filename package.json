@@ -1,19 +1,20 @@
 {
-  "name": "updraft",
-  "version": "0.0.0",
-  "description": "Web application template",
-  "main": "index.js",
+  "name": "paletta",
+  "version": "2.0.0",
+  "description": "HSV Color palette for every Programmer",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "parcel ./src/index.html",
+    "build": "cp -R ./public ./dist && parcel build ./src/index.html"
   },
   "author": "Shoya Ishimaru",
   "license": "MIT",
   "devDependencies": {
-    "grunt": "^0.4.4",
-    "grunt-bower-task": "^0.3.4",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-contrib-coffee": "^0.10.1",
-    "grunt-contrib-sass": "^0.7.3",
-    "grunt-contrib-connect": "^0.7.1"
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.11"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
   }
 }

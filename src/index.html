@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <meta name="keywords" content="Paletta, color, カラーパレット, 顕色系, 配色">
+  <meta name="description" content="Paletta (パレッタ) は顕色系 (色相・明度・彩度) をベースに「調和のとれた色」だけを集めたカラーパレットです.">
+  <meta property="og:title" content="Paletta - HSV Color Palette for Every Programmer">
+  <meta property="og:url" content="https://paletta.mrk1869.com">
+  <meta property="og:image" content="./assets/img/icon.png">
+  <title>Paletta - HSV Color Palette for Every Programmer</title>
+  <link rel="shortcut icon" href="./assets/img/favicon.ico" />
+  <link rel="canonical" href="https://paletta.shoya.io/" />
+  <link rel="author" href="https://www.hatena.ne.jp/Mrk1869/" />
+</head>
+<body>
+  <div class="navbar fixed-top">
+    <button href ="#" class="btn btn-info left-button" id="resetButton">Reset</button>
+    <div class="navbar-brand">
+      <a class="brand" href="/"><img class="logo" src="./assets/img/paletta-logo.png"></a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="container tab">
+      <ul class="nav nav-tabs" id="mode-tab">
+        <li class="nav-item"><a class="nav-link active" href="#palette" data-toggle="tab">Color Palette</a></li>
+        <li class="nav-item"><a class="nav-link" href="#code" data-toggle="tab">Color Code</a></li>
+      </ul>
+    </div>
+    <div class="container palette">
+      <div class="tab-content">
+        <div class="tab-pane" id="palette">
+        </div>
+        <div class="tab-pane" id="code">
+          <div class="code-container">
+            <span style="color:#ffffff;"># </span><input type="text" class="code-input" maxlength="6" value="cc285f">
+          </div>
+        </div>
+      </div>
+      <div class="palette-inner">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-inner">
+      <h3>HSV Color Palette for Every Programmer</h3>
+      <p>Palettaは顕色系 (色相, 明度, 彩度) をベースに「調和のとれた色」だけを集めたカラーパレットです. 色を選択すると, 周囲の色が同系統の色に変わります. 画面上部のResetボタンを押すと, 色の選択が解除されます. カラーコードをクリックするだけでコードをクリップボードへ簡単にコピーできます.&nbsp;&nbsp;<a href="https://shoya.io/ja/posts/paletta/">詳しく</a></p>
+
+      <div class="social">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-counter" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png"
+        alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <div class="fb-share-button" data-href="{{ .Permalink }}" data-layout="button" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | safeURL }}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+        <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+      </div>
+
+      <p class="license">© <a href = "https://shoya.io">Shoya Ishimaru</a> 2013 - 2020</p>
+    </div>
+  </div>
+  <script src="./assets/js/index.js"></script>
+</script>
+</body>
+</html>

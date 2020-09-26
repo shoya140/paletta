@@ -173,7 +173,7 @@
     });
     clip.on("complete", function(client, args) {
       var $notify_message;
-      $notify_message = $(".notifyMessage");
+      $notify_message = $(".notify-message");
       $notify_message.text("Copied " + args.text + " to your clip board");
       return $notify_message.stop().fadeIn(400).delay(1000).fadeOut(700);
     });
