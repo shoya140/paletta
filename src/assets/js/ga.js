@@ -81,14 +81,14 @@
         return gen(this.id);
       }
     });
-    return $("button#resetButton").on("click", function(e) {
+    return $("button#reset-button").on("click", function(e) {
       return palettaOff();
     });
   });
 
   seed = function(colorID) {
     var $color_id, $reset_btn;
-    $reset_btn = $("button#resetButton");
+    $reset_btn = $("button#reset-button");
     $reset_btn.fadeIn(300);
     $reset_btn.css("background-color", getRGBCSS(colors[0]));
     $color_id = $("#" + colorID);
@@ -140,7 +140,7 @@
   palettaOff = function() {
     var $color_dom, clip, colorCount, colorIDs, hsv, i, rgb, _i, _j;
     colors = [];
-    $("button#resetButton").hide();
+    $("button#reset-button").hide();
     colorIDs = [];
     colorCount = $(".box").length;
     for (i = _i = 0; 0 <= colorCount ? _i < colorCount : _i > colorCount; i = 0 <= colorCount ? ++_i : --_i) {

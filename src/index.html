@@ -15,19 +15,22 @@
 </head>
 <body>
   <div class="navbar fixed-top">
-    <button href ="#" class="btn btn-info left-button" id="resetButton">Reset</button>
-    <div class="navbar-brand">
-      <a class="brand" href="/"><img class="logo" src="./assets/img/paletta-logo.png"></a>
+    <div class="inner">
+      <button href ="#" class="btn btn-info" id="reset-button">Reset</button>
+      <svg class="dark-mode-toggle-button" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.685 21.965c3.205-2.154 5.315-5.813 5.315-9.965s-2.11-7.811-5.315-9.965c5.202.353 9.315 4.673 9.315 9.965s-4.113 9.612-9.315 9.965z"/></svg>
+    </div>
+      <a class="brand" id="logo-light" href="/"><img class="logo" src="./assets/img/logo-light.png" height="30px"></a>
+      <a class="brand" id="logo-dark" href="/"><img class="logo" src="./assets/img/logo-dark.png" height="30px"></a>
     </div>
   </div>
   <div class="content">
-    <div class="container tab">
+    <div class="tab inner">
       <ul class="nav nav-tabs" id="mode-tab">
         <li class="nav-item"><a class="nav-link active" href="#palette" data-toggle="tab">Color Palette</a></li>
         <li class="nav-item"><a class="nav-link" href="#code" data-toggle="tab">Color Code</a></li>
       </ul>
     </div>
-    <div class="container palette">
+    <div class="palette inner">
       <div class="tab-content">
         <div class="tab-pane" id="palette">
         </div>
@@ -52,7 +55,7 @@
     </div>
   </div>
   <div class="footer">
-    <div class="footer-inner">
+    <div class="inner">
       <h3>HSV Color Palette for Every Programmer</h3>
       <p>Palettaは顕色系 (色相, 明度, 彩度) をベースに「調和のとれた色」だけを集めたカラーパレットです. 色を選択すると, 周囲の色が同系統の色に変わります. 画面上部のResetボタンを押すと, 色の選択が解除されます. カラーコードをクリックするだけでコードをクリップボードへ簡単にコピーできます.&nbsp;&nbsp;<a href="https://shoya.io/ja/posts/paletta/">詳しく</a></p>
 
@@ -68,7 +71,7 @@
         <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
       </div>
 
-      <p class="license">© <a href = "https://shoya.io">Shoya Ishimaru</a> 2013 - 2020</p>
+      <p class="license">© 2013 - 2020 <a href = "https://shoya.io">Shoya Ishimaru</a></p>
     </div>
   </div>
   <script src="./assets/js/index.js"></script>

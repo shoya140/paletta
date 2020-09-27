@@ -1,37 +1,79 @@
-$brand-color: #4ba395;
-$surface-color: #ffffff;
-$background-color: #f0f2f4;
-$footer-color: #212121;
+:root{
+    --surface: #f0f2f4;
+    --palette: #ffffff;
+    --navbar: #ffffff;
+    --text: #505050;
+    --background: #1b191f;
+    --logo-dark-visibility: hidden;
+}
+
+:root[data-theme-mode="dark"] {
+    --surface: #101010;
+    --palette: #000000;
+    --navbar: #1a1a1a;
+    --text: #e0e0e0;
+    --background: #000000;
+    --logo-dark-visibility: visible;
+}
+
+$surface-color: var(--surface);
+$palette-color: var(--palette);
+$navbar-color: var(--navbar);
+$text-color: var(--text);
+$background-color: var(--background);
+
+$primary-color: #4ba395;
 
 body {
     padding: 0;
     height: 100%;
     width: 100%;
-    background-color: $footer-color;
+    background-color: $background-color;
     font-size: 16px;
 }
 
 a {
-    color: $brand-color;
+    color: $primary-color;
     text-decoration: none;
 
     &:hover {
-        color: darken($brand-color, 5%);
+        color: darken($primary-color, 10%);
     }
 }
 
-.logo {
-    height: 30px;
+.inner {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+
+    @media screen and (max-width: 800px) {
+        max-width: 600px;
+    }
 }
 
-.navbar-brand {
+#logo-dark {
+    visibility: var(--logo-dark-visibility);
+}
+
+.brand {
     transform: translateX(-50%);
     left: 50%;
     position: absolute;
 }
 
+.dark-mode-toggle-button {
+    position: absolute;
+    right: 6px;
+    top: 8px;
+    z-index: 10;
+    cursor: pointer;
+    fill: $text-color;
+}
+
 .content {
-    background-color: $background-color;
+    background-color: $surface-color;
     padding: 90px 0 50px 0;
 }
 
@@ -44,7 +86,7 @@ a {
 }
 
 .rgb {
-    color: $surface-color;
+    color: #ffffff;
     text-align: center;
     position: absolute;
     left: 15px;
@@ -56,18 +98,16 @@ a {
     position: relative;
     border-radius: 3px;
     cursor: pointer;
+    user-select: none;
 }
 
 .footer {
-    box-shadow: 0 8px 12px -6px rgba(0,0,0,0.4) inset;
-    background-color: $footer-color;
-    color: $surface-color;
-}
+    background-color: $background-color;
+    color: #ffffff;
 
-.footer-inner {
-    max-width: 800px;
-    padding: 40px 20px;
-    margin: 0px auto;
+    .inner {
+        padding: 40px 15px;
+    }
 }
 
 .fb_iframe_widget {
@@ -77,10 +117,14 @@ a {
 .license {
     text-align: center;
     margin-top: 10px;
+
+    a {
+        color: #ffffff;
+    }
 }
 
 .palette {
-    background-color: $surface-color;
+    background-color: $palette-color;
     padding: 8px;
     border-radius: 0px 0px 4px 4px;
 }
@@ -102,7 +146,7 @@ a {
 .code-input{
     text-align: center;
     width: 30%;
-    color: darken($brand-color, 10%);
+    color: darken($primary-color, 10%);
     border: none;
     border-radius: 3px;
 }
@@ -115,8 +159,9 @@ input:focus, select:focus, textarea:focus, button:focus {
 
 .navbar {
     box-shadow: 0 0 2px rgba(0,0,0,.2);
-    background-color: $surface-color;
-    height: 55px;
+    background-color: $navbar-color;
+    height: 52px;
+    user-select: none;
 }
 
 .btn{
@@ -139,4 +184,9 @@ input:focus, select:focus, textarea:focus, button:focus {
 .nav-tabs .nav-link {
     cursor: pointer;
     border: none;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    background-color: $palette-color;
+    color: $text-color;
 }

@@ -36,13 +36,18 @@ $(function() {
   $box.on("click", function(e) {
     return palettaOn(this.id)
   })
-  return $("button#resetButton").on("click", function(e) {
+  return $("#reset-button").on("click", function(e) {
     return palettaOff()
   })
 })
 
+$(".dark-mode-toggle-button").on("click", function(e) {
+  const theme = $(document.documentElement).attr("data-theme-mode") === "dark" ? "light" : "dark"
+  $(document.documentElement).attr("data-theme-mode", theme)
+})
+
 function palettaOn(colorID) {
-  const $resetButton = $("button#resetButton")
+  const $resetButton = $("#reset-button")
   const $colorID = $("#" + colorID)
   $resetButton.fadeIn(300)
   $resetButton.css("background-color", $colorID.css("background-color"))
@@ -91,7 +96,7 @@ function codeOn(code) {
 
 function palettaOff() {
   var colorCount, colorIDs, hsv, i, rgb, _i, _j
-  $("button#resetButton").hide()
+  $("#reset-button").hide()
   colorIDs = []
   colorCount = $(".box").length
   for (i = _i = 0; 0 <= colorCount ? _i < colorCount : _i > colorCount; i = 0 <= colorCount ? ++_i : --_i) {
