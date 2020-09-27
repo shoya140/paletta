@@ -1,14 +1,21 @@
 {
   "name": "paletta",
   "version": "2.0.0",
-  "description": "HSV Color palette for every Programmer",
+  "description": "HSV Color Palette for Every Programmer",
   "scripts": {
-    "serve": "parcel ./src/index.html",
+    "serve": "yarn run esw -w ./src/**/*.js & parcel ./src/index.html",
     "build": "cp -R ./public ./dist && parcel build ./src/index.html"
   },
   "author": "Shoya Ishimaru",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-watch": "^7.0.0",
     "parcel-bundler": "^1.12.4",
     "sass": "^1.26.11"
   },

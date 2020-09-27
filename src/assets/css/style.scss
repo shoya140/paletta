@@ -7,7 +7,7 @@
     --logo-dark-visibility: hidden;
 }
 
-:root[data-theme-mode="dark"] {
+:root[data-theme="dark"] {
     --surface: #101010;
     --palette: #000000;
     --navbar: #1a1a1a;
@@ -53,7 +53,7 @@ a {
     }
 }
 
-#logo-dark {
+.logo-dark {
     visibility: var(--logo-dark-visibility);
 }
 

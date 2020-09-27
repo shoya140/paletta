@@ -1,166 +1,133 @@
 require('./main.js')
 
-$(function() {
-  $(".palette-inner").mason({
-    itemSelector: ".box",
-    ratio: 1.1,
-    sizes: [[1, 1], [2, 1], [1, 2]],
-    columns: [[0, 400, 3], [400, 600, 4], [600, 1000, 5], [1000, 2000, 6]],
-    gutter: 4
-  })
-  const $input = $(".code-input")
-  $input.keypress(function(e) {
-    if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
-      return codeOn($input.val())
-    }
-  })
-  $("a[data-toggle='tab']").on("shown", function(e) {
-    var tabName
-    tabName = e.target.href.split("#").pop()
-    if (tabName === "palette") {
-      return palettaOff()
-    } else if (tabName === "code") {
-      return codeOn($input.val())
-    }
-  })
+$('.palette-inner').mason({
+  itemSelector: '.box',
+  ratio: 1.1,
+  sizes: [[1, 1], [2, 1], [1, 2]],
+  columns: [[0, 400, 3], [400, 600, 4], [600, 1000, 5]],
+  gutter: 4
+})
+
+palettaOff()
+
+$('.code-input').keypress(function (e) {
+  if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+    codeOn($(this).val())
+  }
+})
+
+$('.box').on('mouseenter', function (e) {
+  $(this).css('box-shadow', '0 0 10px rgba(0,0,0,0.2) inset')
+}).on('mouseleave', function (e) {
+  $(this).css('box-shadow', 'none')
+}).on('click', function (e) {
+  palettaOn(this.id)
+})
+
+$('.reset-button').on('click', function (e) {
   palettaOff()
-  const $box = $(".box")
-  $box.on({
-    mouseenter: function() {
-      return $(this).css("box-shadow", "0 0 10px rgba(0,0,0,0.2) inset")
-    },
-    mouseleave: function() {
-      return $box.css("box-shadow", "none")
-    }
-  })
-  $box.on("click", function(e) {
-    return palettaOn(this.id)
-  })
-  return $("#reset-button").on("click", function(e) {
-    return palettaOff()
-  })
 })
 
-$(".dark-mode-toggle-button").on("click", function(e) {
-  const theme = $(document.documentElement).attr("data-theme-mode") === "dark" ? "light" : "dark"
-  $(document.documentElement).attr("data-theme-mode", theme)
+$('.dark-mode-toggle-button').on('click', function (e) {
+  const theme = $(document.documentElement).attr('data-theme') === 'dark' ? 'light' : 'dark'
+  $(document.documentElement).attr('data-theme', theme)
 })
 
-function palettaOn(colorID) {
-  const $resetButton = $("#reset-button")
-  const $colorID = $("#" + colorID)
-  $resetButton.fadeIn(300)
-  $resetButton.css("background-color", $colorID.css("background-color"))
-  return $(".box").each(function(i) {
-    if (colorID !== "color" + i) {
-      const hue = $colorID.find(".hue").text()
+function updateBoxes (hue, colorID) {
+  $('.box').each(function (i) {
+    if (colorID !== 'color' + i) {
       const hsv = getRandomColor(hue)
       const rgb = getRGBCSS(hsv)
-      const $colorDom = $("#color" + i)
-      $colorDom.css("background-color", getRGBCSS(hsv))
-      $colorDom.find(".rgb").attr("data-original-title", "Click to Copy")
-      $colorDom.find(".rgb").text(rgb)
-      $colorDom.find(".hue").text(hsv[0])
-      if (hsv[2] > 0.70 && hsv[1] < 0.30) {
-        return $colorDom.find(".rgb").css("color", "#131516")
-      } else {
-        return $colorDom.find(".rgb").css("color", "#ffffff")
-      }
+      const textColor = (hsv[2] > 0.70 && hsv[1] < 0.30) ? '#131516' : '#ffffff'
+      const $colorDom = $('#color' + i)
+      $colorDom.css('background-color', getRGBCSS(hsv))
+      $colorDom.find('.rgb').attr('data-original-title', 'Click to Copy')
+      $colorDom.find('.rgb').text(rgb)
+      $colorDom.find('.hue').text(hsv[0])
+      $colorDom.find('.rgb').css('color', textColor)
     }
   })
 }
 
-function codeOn(code) {
-  var hue
+function palettaOn (colorID) {
+  const $resetButton = $('.reset-button')
+  const $colorID = $('#' + colorID)
+  $resetButton.fadeIn(300)
+  $resetButton.css('background-color', $colorID.css('background-color'))
+  updateBoxes($colorID.find('.hue').text(), colorID)
+}
+
+function codeOn (code) {
   if (code.length !== 6) {
     return
   }
-  $(".code-container").css("background-color", "#" + code)
-  hue = rgb2hsv(code)[0]
-  return $(".box").each(function(i) {
-    var $colorDom, hsv, rgb
-    hsv = getRandomColor(hue)
-    rgb = getRGBCSS(hsv)
-    $colorDom = $("#color" + i)
-    $colorDom.css("background-color", getRGBCSS(hsv))
-    $colorDom.find(".rgb").attr("data-original-title", "Click to Copy")
-    $colorDom.find(".rgb").text(rgb)
-    $colorDom.find(".hue").text(hsv[0])
-    if (hsv[2] > 0.70 && hsv[1] < 0.30) {
-      return $colorDom.find(".rgb").css("color", "#131516")
-    } else {
-      return $colorDom.find(".rgb").css("color", "#ffffff")
-    }
-  })
+  $('.code-container').css('background-color', '#' + code)
+  updateBoxes(rgb2hsv(code)[0], -1)
 }
 
-function palettaOff() {
+function palettaOff () {
   var colorCount, colorIDs, hsv, i, rgb, _i, _j
-  $("#reset-button").hide()
+  $('.reset-button').hide()
   colorIDs = []
-  colorCount = $(".box").length
+  colorCount = $('.box').length
   for (i = _i = 0; 0 <= colorCount ? _i < colorCount : _i > colorCount; i = 0 <= colorCount ? ++_i : --_i) {
     colorIDs.push(i)
   }
-  colorIDs.sort(function() {
+  colorIDs.sort(function () {
     return Math.random() - Math.random()
   })
-  $(".box").each(function(i) {
+  $('.box').each(function (i) {
     $(this).empty()
-    $(this).attr("id", "color" + colorIDs[i])
-    $(this).append("<span class=\"rgb\" data-original-title=\"Click to Copy\">#000000</span>")
-    return $(this).append("<p class=\"hue\">0</p>")
+    $(this).attr('id', 'color' + colorIDs[i])
+    $(this).append('<span class=\'rgb\' data-original-title=\'Click to Copy\'>#000000</span>')
+    $(this).append('<p class=\'hue\'>0</p>')
   })
   for (i = _j = 0; 0 <= colorCount ? _j < colorCount : _j > colorCount; i = 0 <= colorCount ? ++_j : --_j) {
     hsv = getBaseColor(i, colorCount)
     rgb = getRGBCSS(hsv)
-    const $colorDom = $("#color" + i)
-    $colorDom.css("background-color", getRGBCSS(hsv))
-    $colorDom.find(".rgb").text(rgb)
-    $colorDom.find(".hue").text(hsv[0])
+    const $colorDom = $('#color' + i)
+    $colorDom.css('background-color', getRGBCSS(hsv))
+    $colorDom.find('.rgb').text(rgb)
+    $colorDom.find('.hue').text(hsv[0])
   }
 
-  $(".rgb").each(function(i) {
-    $(this).on("mouseover", function(client) {
-      $(this).tooltip("show")
-    })
-
-    $(this).on().on("mouseout", function(client) {
-      $(this).tooltip("hide")
-    })
-
-    $(this).on("click", function(e) {
+  $('.rgb').each(function (i) {
+    $(this).on('mouseover', function (client) {
+      $(this).tooltip('show')
+    }).on('mouseout', function (client) {
+      $(this).tooltip('hide')
+    }).on('click', function (e) {
       e.stopPropagation()
-      if(navigator.clipboard){
+      if (navigator.clipboard) {
         navigator.clipboard.writeText($(this).text())
       }
-      if(window.clipboardData){
-        window.clipboardData.setData("Text" , $(this).text())
+      if (window.clipboardData) {
+        window.clipboardData.setData('Text', $(this).text())
       }
-      $(".rgb").each(function(i) {
-        $(this).attr("data-original-title", "Click to Copy")
+      $('.rgb').each(function (i) {
+        $(this).attr('data-original-title', 'Click to Copy')
       })
       $(this).tooltip('hide')
-      $(this).attr("data-original-title", "✓ Copied")
+      $(this).attr('data-original-title', '✓ Copied')
       $(this).tooltip('show')
     })
   })
 }
 
-function getBaseColor(i, count) {
+function getBaseColor (i, count) {
   const h = i / count * 360
   const s = 0.8
   const v = 0.8
   return [h, s, v]
 }
 
-function getRandomColor(hue) {
+function getRandomColor (hue) {
   const s = Math.random()
   const v = Math.random()
   return [hue, s, v]
 }
 
-function getRGBCSS(hsv) {
+function getRGBCSS (hsv) {
   const rgb = hsv2rgb(hsv[0], hsv[1], hsv[2])
   return rgb2css(rgb[0], rgb[1], rgb[2])
 }
@@ -200,29 +167,29 @@ function hsv2rgb (h, s, v) {
   return rgb
 }
 
-function rgb2css(r, g, b) {
-  if (typeof r === "object") {
+function rgb2css (r, g, b) {
+  if (typeof r === 'object') {
     g = r[1]
     b = r[2]
     r = r[0]
   }
-  return "#" + dec2hex(r) + dec2hex(g) + dec2hex(b)
+  return '#' + dec2hex(r) + dec2hex(g) + dec2hex(b)
 }
 
-function dec2hex(n){
+function dec2hex (n) {
   n = parseInt(n)
   const c = 'abcdef'
   var b = n / 16
   var r = n % 16
-  b = b-(r/16)
-  b = ((b>=0) && (b<=9)) ? b : c.charAt(b-10)
-  return ((r>=0) && (r<=9)) ? b+''+r : b+''+c.charAt(r-10)
+  b = b - (r / 16)
+  b = ((b >= 0) && (b <= 9)) ? b : c.charAt(b - 10)
+  return ((r >= 0) && (r <= 9)) ? b + '' + r : b + '' + c.charAt(r - 10)
 }
 
-function rgb2hsv(s) {
+function rgb2hsv (s) {
   var hsv, i, max, min, rgb, _i, _ref
   if (s.length !== 6) {
-    return "#00000"
+    return '#00000'
   }
   rgb = [0, 0, 0]
   rgb[0] = parseInt(s.substring(0, 2), 16)
