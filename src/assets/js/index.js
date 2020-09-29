@@ -1,5 +1,7 @@
 require('./main.js')
 
+// init
+
 $('.palette-inner').mason({
   itemSelector: '.box',
   ratio: 1.1,
@@ -8,109 +10,93 @@ $('.palette-inner').mason({
   gutter: 4
 })
 
-palettaOff()
+resetBoxes()
 
-$('.code-input').keypress(function (e) {
-  if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
-    codeOn($(this).val())
+// Add events
+
+document.querySelector('.reset-button').addEventListener('click', function (e) {
+  resetBoxes()
+})
+
+document.querySelector('.dark-mode-toggle-button').addEventListener('click', function (e) {
+  const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+  document.documentElement.setAttribute('data-theme', theme)
+})
+
+document.querySelector('.code-input').addEventListener('keyup', function (e) {
+  if (e.keyCode === 13 && this.value.length === 6) {
+    document.querySelector('.code-container').style.backgroundColor = '#' + this.value
+    updateBoxes(rgb2hsv(this.value)[0], -1)
   }
 })
 
-$('.box').on('mouseenter', function (e) {
-  $(this).css('box-shadow', '0 0 10px rgba(0,0,0,0.2) inset')
-}).on('mouseleave', function (e) {
-  $(this).css('box-shadow', 'none')
-}).on('click', function (e) {
-  palettaOn(this.id)
+document.querySelectorAll('.box').forEach(function (element, index) {
+  element.addEventListener('mouseenter', function (e) {
+    this.classList.add('highlighted')
+  })
+  element.addEventListener('mouseleave', function (e) {
+    this.classList.remove('highlighted')
+  })
+  element.addEventListener('click', function (e) {
+    document.querySelector('.reset-button').style.display = 'inline'
+    document.querySelector('.reset-button').style.backgroundColor = element.querySelector('.rgb').innerHTML
+    updateBoxes(element.getAttribute('data-hue'), index)
+  })
 })
 
-$('.reset-button').on('click', function (e) {
-  palettaOff()
+document.querySelectorAll('.rgb').forEach(function (element) {
+  element.setAttribute('data-original-title', 'Click to Copy')
+
+  element.addEventListener('mouseenter', function (e) {
+    $(this).tooltip('show')
+  })
+  element.addEventListener('mouseleave', function (e) {
+    $(this).tooltip('hide')
+  })
+  element.addEventListener('click', function (e) {
+    e.stopPropagation()
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(this.innerHTML)
+    }
+    if (window.clipboardData) {
+      window.clipboardData.setData('Text', this.innerHTML)
+    }
+    document.querySelectorAll('.rgb').forEach(function (element) {
+      element.setAttribute('data-original-title', 'Click to Copy')
+    })
+    $(this).tooltip('hide')
+    this.setAttribute('data-original-title', '✓ Copied')
+    $(this).tooltip('show')
+  })
 })
 
-$('.dark-mode-toggle-button').on('click', function (e) {
-  const theme = $(document.documentElement).attr('data-theme') === 'dark' ? 'light' : 'dark'
-  $(document.documentElement).attr('data-theme', theme)
-})
+// functions
+
+function resetBoxes () {
+  document.querySelector('.reset-button').style.display = 'none'
+  const colorCount = document.querySelectorAll('.box').length
+  document.querySelectorAll('.box').forEach(function (element, index) {
+    const hsv = getBaseColor(index, colorCount)
+    const rgb = getRGBCSS(hsv)
+    element.setAttribute('data-original-title', 'Click to Copy')
+    element.setAttribute('data-hue', hsv[0])
+    element.querySelector('.rgb').innerHTML = rgb
+    element.querySelector('.rgb').style.color = (hsv[2] > 0.70 && hsv[1] < 0.30) ? '#131516' : '#ffffff'
+    element.style.backgroundColor = rgb
+  })
+}
 
 function updateBoxes (hue, colorID) {
-  $('.box').each(function (i) {
-    if (colorID !== 'color' + i) {
+  document.querySelectorAll('.box').forEach(function (element, index) {
+    if (colorID !== index) {
       const hsv = getRandomColor(hue)
       const rgb = getRGBCSS(hsv)
-      const textColor = (hsv[2] > 0.70 && hsv[1] < 0.30) ? '#131516' : '#ffffff'
-      const $colorDom = $('#color' + i)
-      $colorDom.css('background-color', getRGBCSS(hsv))
-      $colorDom.find('.rgb').attr('data-original-title', 'Click to Copy')
-      $colorDom.find('.rgb').text(rgb)
-      $colorDom.find('.hue').text(hsv[0])
-      $colorDom.find('.rgb').css('color', textColor)
+      element.style.backgroundColor = getRGBCSS(hsv)
+      element.querySelector('.rgb').setAttribute('data-original-title', 'Click to Copy')
+      element.querySelector('.rgb').innerHTML = rgb
+      element.querySelector('.rgb').style.color = (hsv[2] > 0.70 && hsv[1] < 0.30) ? '#131516' : '#ffffff'
+      element.setAttribute('data-hue', hsv[0])
     }
-  })
-}
-
-function palettaOn (colorID) {
-  const $resetButton = $('.reset-button')
-  const $colorID = $('#' + colorID)
-  $resetButton.fadeIn(300)
-  $resetButton.css('background-color', $colorID.css('background-color'))
-  updateBoxes($colorID.find('.hue').text(), colorID)
-}
-
-function codeOn (code) {
-  if (code.length !== 6) {
-    return
-  }
-  $('.code-container').css('background-color', '#' + code)
-  updateBoxes(rgb2hsv(code)[0], -1)
-}
-
-function palettaOff () {
-  var colorCount, colorIDs, hsv, i, rgb, _i, _j
-  $('.reset-button').hide()
-  colorIDs = []
-  colorCount = $('.box').length
-  for (i = _i = 0; 0 <= colorCount ? _i < colorCount : _i > colorCount; i = 0 <= colorCount ? ++_i : --_i) {
-    colorIDs.push(i)
-  }
-  colorIDs.sort(function () {
-    return Math.random() - Math.random()
-  })
-  $('.box').each(function (i) {
-    $(this).empty()
-    $(this).attr('id', 'color' + colorIDs[i])
-    $(this).append('<span class=\'rgb\' data-original-title=\'Click to Copy\'>#000000</span>')
-    $(this).append('<p class=\'hue\'>0</p>')
-  })
-  for (i = _j = 0; 0 <= colorCount ? _j < colorCount : _j > colorCount; i = 0 <= colorCount ? ++_j : --_j) {
-    hsv = getBaseColor(i, colorCount)
-    rgb = getRGBCSS(hsv)
-    const $colorDom = $('#color' + i)
-    $colorDom.css('background-color', getRGBCSS(hsv))
-    $colorDom.find('.rgb').text(rgb)
-    $colorDom.find('.hue').text(hsv[0])
-  }
-
-  $('.rgb').each(function (i) {
-    $(this).on('mouseover', function (client) {
-      $(this).tooltip('show')
-    }).on('mouseout', function (client) {
-      $(this).tooltip('hide')
-    }).on('click', function (e) {
-      e.stopPropagation()
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText($(this).text())
-      }
-      if (window.clipboardData) {
-        window.clipboardData.setData('Text', $(this).text())
-      }
-      $('.rgb').each(function (i) {
-        $(this).attr('data-original-title', 'Click to Copy')
-      })
-      $(this).tooltip('hide')
-      $(this).attr('data-original-title', '✓ Copied')
-      $(this).tooltip('show')
-    })
   })
 }
 

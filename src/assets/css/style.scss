@@ -63,6 +63,11 @@ a {
     position: absolute;
 }
 
+.reset-button {
+    display: none;
+    transition: all 0.2s;
+}
+
 .dark-mode-toggle-button {
     position: absolute;
     right: 6px;
@@ -94,11 +99,16 @@ a {
 }
 
 .box {
+    background-color: #123456;
     float: left;
     position: relative;
     border-radius: 3px;
     cursor: pointer;
     user-select: none;
+}
+
+.highlighted {
+    box-shadow: 0 0 10px rgba(0,0,0,0.2) inset;
 }
 
 .footer {
@@ -117,6 +127,7 @@ a {
 .license {
     text-align: center;
     margin-top: 10px;
+    font-size: 12px;
 
     a {
         color: #ffffff;
@@ -141,6 +152,7 @@ a {
     font-size: 18px;
     background-color: #cc285f;
     border-radius: 3px;
+    color: #ffffff;
 }
 
 .code-input{
