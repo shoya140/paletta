@@ -9,18 +9,18 @@
   "author": "Shoya Ishimaru",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^7.10.0",
-    "eslint-config-standard": "^14.1.1",
+    "eslint": "^7.16.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-standard": "^5.0.0",
     "eslint-watch": "^7.0.0",
     "parcel-bundler": "^1.12.4",
-    "sass": "^1.26.11"
+    "sass": "^1.30.0"
   },
   "dependencies": {
-    "bootstrap": "^4.5.2",
+    "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1"
   }
