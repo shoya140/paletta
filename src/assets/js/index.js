@@ -5,9 +5,17 @@ require('./main.js')
 $('.palette-inner').mason({
   itemSelector: '.box',
   ratio: 1.1,
-  sizes: [[1, 1], [2, 1], [1, 2]],
-  columns: [[0, 400, 3], [400, 600, 4], [600, 1000, 5]],
-  gutter: 4
+  sizes: [
+    [1, 1],
+    [2, 1],
+    [1, 2],
+  ],
+  columns: [
+    [0, 400, 3],
+    [400, 600, 4],
+    [600, 1000, 5],
+  ],
+  gutter: 4,
 })
 
 resetBoxes()
@@ -18,14 +26,20 @@ document.querySelector('.reset-button').addEventListener('click', function (e) {
   resetBoxes()
 })
 
-document.querySelector('.dark-mode-toggle-button').addEventListener('click', function (e) {
-  const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
-  document.documentElement.setAttribute('data-theme', theme)
-})
+document
+  .querySelector('.dark-mode-toggle-button')
+  .addEventListener('click', function (e) {
+    const theme =
+      document.documentElement.getAttribute('data-theme') === 'dark'
+        ? 'light'
+        : 'dark'
+    document.documentElement.setAttribute('data-theme', theme)
+  })
 
 document.querySelector('.code-input').addEventListener('keyup', function (e) {
   if (e.keyCode === 13 && this.value.length === 6) {
-    document.querySelector('.code-container').style.backgroundColor = '#' + this.value
+    document.querySelector('.code-container').style.backgroundColor =
+      '#' + this.value
     updateBoxes(rgb2hsv(this.value)[0], -1)
   }
 })
@@ -39,7 +53,9 @@ document.querySelectorAll('.box').forEach(function (element, index) {
   })
   element.addEventListener('click', function (e) {
     document.querySelector('.reset-button').style.display = 'inline'
-    document.querySelector('.reset-button').style.backgroundColor = element.querySelector('.rgb').innerHTML
+    document.querySelector(
+      '.reset-button'
+    ).style.backgroundColor = element.querySelector('.rgb').innerHTML
     updateBoxes(element.getAttribute('data-hue'), index)
   })
 })
@@ -72,7 +88,7 @@ document.querySelectorAll('.rgb').forEach(function (element) {
 
 // functions
 
-function resetBoxes () {
+function resetBoxes() {
   document.querySelector('.reset-button').style.display = 'none'
   const colorCount = document.querySelectorAll('.box').length
   document.querySelectorAll('.box').forEach(function (element, index) {
@@ -81,44 +97,48 @@ function resetBoxes () {
     element.setAttribute('data-original-title', 'Click to Copy')
     element.setAttribute('data-hue', hsv[0])
     element.querySelector('.rgb').innerHTML = rgb
-    element.querySelector('.rgb').style.color = (hsv[2] > 0.70 && hsv[1] < 0.30) ? '#131516' : '#ffffff'
+    element.querySelector('.rgb').style.color =
+      hsv[2] > 0.7 && hsv[1] < 0.3 ? '#131516' : '#ffffff'
     element.style.backgroundColor = rgb
   })
 }
 
-function updateBoxes (hue, colorID) {
+function updateBoxes(hue, colorID) {
   document.querySelectorAll('.box').forEach(function (element, index) {
     if (colorID !== index) {
       const hsv = getRandomColor(hue)
       const rgb = getRGBCSS(hsv)
       element.style.backgroundColor = getRGBCSS(hsv)
-      element.querySelector('.rgb').setAttribute('data-original-title', 'Click to Copy')
+      element
+        .querySelector('.rgb')
+        .setAttribute('data-original-title', 'Click to Copy')
       element.querySelector('.rgb').innerHTML = rgb
-      element.querySelector('.rgb').style.color = (hsv[2] > 0.70 && hsv[1] < 0.30) ? '#131516' : '#ffffff'
+      element.querySelector('.rgb').style.color =
+        hsv[2] > 0.7 && hsv[1] < 0.3 ? '#131516' : '#ffffff'
       element.setAttribute('data-hue', hsv[0])
     }
   })
 }
 
-function getBaseColor (i, count) {
-  const h = i / count * 360
+function getBaseColor(i, count) {
+  const h = (i / count) * 360
   const s = 0.8
   const v = 0.8
   return [h, s, v]
 }
 
-function getRandomColor (hue) {
+function getRandomColor(hue) {
   const s = Math.random()
   const v = Math.random()
   return [hue, s, v]
 }
 
-function getRGBCSS (hsv) {
+function getRGBCSS(hsv) {
   const rgb = hsv2rgb(hsv[0], hsv[1], hsv[2])
   return rgb2css(rgb[0], rgb[1], rgb[2])
 }
 
-function hsv2rgb (h, s, v) {
+function hsv2rgb(h, s, v) {
   var f, hi, p, q, rgb, t
   while (h < 0) {
     h += 360
@@ -128,7 +148,7 @@ function hsv2rgb (h, s, v) {
     v *= 255
     return [v, v, v]
   }
-  hi = +(h / 60 >> 0)
+  hi = +((h / 60) >> 0)
   f = h / 60 - hi
   p = v * (1 - s)
   q = v * (1 - f * s)
@@ -147,13 +167,13 @@ function hsv2rgb (h, s, v) {
   } else if (hi === 5) {
     rgb = [v, p, q]
   }
-  rgb[0] = rgb[0] * 255 >> 0
-  rgb[1] = rgb[1] * 255 >> 0
-  rgb[2] = rgb[2] * 255 >> 0
+  rgb[0] = (rgb[0] * 255) >> 0
+  rgb[1] = (rgb[1] * 255) >> 0
+  rgb[2] = (rgb[2] * 255) >> 0
   return rgb
 }
 
-function rgb2css (r, g, b) {
+function rgb2css(r, g, b) {
   if (typeof r === 'object') {
     g = r[1]
     b = r[2]
@@ -162,17 +182,17 @@ function rgb2css (r, g, b) {
   return '#' + dec2hex(r) + dec2hex(g) + dec2hex(b)
 }
 
-function dec2hex (n) {
+function dec2hex(n) {
   n = parseInt(n)
   const c = 'abcdef'
   var b = n / 16
   var r = n % 16
-  b = b - (r / 16)
-  b = ((b >= 0) && (b <= 9)) ? b : c.charAt(b - 10)
-  return ((r >= 0) && (r <= 9)) ? b + '' + r : b + '' + c.charAt(r - 10)
+  b = b - r / 16
+  b = b >= 0 && b <= 9 ? b : c.charAt(b - 10)
+  return r >= 0 && r <= 9 ? b + '' + r : b + '' + c.charAt(r - 10)
 }
 
-function rgb2hsv (s) {
+function rgb2hsv(s) {
   var hsv, i, max, min, rgb, _i, _ref
   if (s.length !== 6) {
     return '#00000'
@@ -183,7 +203,11 @@ function rgb2hsv (s) {
   rgb[2] = parseInt(s.substring(4, 6), 16)
   max = 0
   min = 256
-  for (i = _i = 0, _ref = rgb.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+  for (
+    i = _i = 0, _ref = rgb.length;
+    0 <= _ref ? _i < _ref : _i > _ref;
+    i = 0 <= _ref ? ++_i : --_i
+  ) {
     if (max < rgb[i]) {
       max = rgb[i]
     }
@@ -195,12 +219,12 @@ function rgb2hsv (s) {
   if (max === min) {
     hsv[0] = 0
   } else if (max === rgb[0]) {
-    hsv[0] = (60 * (rgb[1] - rgb[2]) / (max - min) + 360) % 360
+    hsv[0] = ((60 * (rgb[1] - rgb[2])) / (max - min) + 360) % 360
   } else if (max === rgb[1]) {
-    hsv[0] = (60 * (rgb[2] - rgb[0]) / (max - min)) + 120
+    hsv[0] = (60 * (rgb[2] - rgb[0])) / (max - min) + 120
   } else {
     if (max === rgb[2]) {
-      hsv[0] = (60 * (rgb[0] - rgb[1]) / (max - min)) + 240
+      hsv[0] = (60 * (rgb[0] - rgb[1])) / (max - min) + 240
     }
   }
   if (max === 0) {
