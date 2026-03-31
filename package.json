@@ -3,14 +3,14 @@
   "version": "2.0.1",
   "description": "HSV Color Palette for Every Programmer",
   "scripts": {
-    "serve": "esw -w ./src/**/*.js & parcel ./src/index.html",
-    "build": "cp -R ./public ./dist && parcel build ./src/index.html",
-    "fmt": "prettier --write 'src/**/*.{js, scss}'",
-    "preinstall": "npx npm-force-resolutions"
+    "serve": "parcel src/index.html",
+    "build": "cp -R ./public ./dist && parcel build src/index.html",
+    "fmt": "prettier --write 'src/**/*.{js, scss}'"
   },
   "author": "Shoya Ishimaru",
   "license": "MIT",
   "devDependencies": {
+    "@parcel/transformer-sass": "2.16.4",
     "eslint": "^7.16.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.0",
@@ -18,17 +18,13 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
     "eslint-watch": "^7.0.0",
-    "parcel-bundler": "^1.12.4",
-    "prettier": "2.2.1",
-    "sass": "^1.30.0"
+    "parcel": "^2.0.0",
+    "prettier": "2.2.1"
   },
   "dependencies": {
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1"
-  },
-  "resolutions": {
-    "node-forge": "0.10.0"
   },
   "prettier": {
     "semi": false,

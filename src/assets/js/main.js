@@ -1,8 +1,8 @@
-window.$ = window.jQuery = require('jquery')
+import './jquery-global.js'
 
-require('bootstrap')
-require('bootstrap/dist/css/bootstrap.css')
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.css'
 
-require('../../../vendor/mason.min.js')
+import '../../../vendor/mason.min.js'
 
-require('../css/style.scss')
+import '../css/style.scss'
